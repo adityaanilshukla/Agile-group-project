@@ -1,0 +1,16 @@
+{
+  "name": "agile-group-project",
+  "version": "1.0.0",
+  "description": "Team 97 Agile Group Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Aditya Shukla",
+  "license": "MIT",
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "sqlite3": "^5.1.6"
+  }
+}
