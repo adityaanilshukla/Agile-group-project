@@ -58,6 +58,29 @@ html {
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Optional: Add a subtle shadow effect */
 }
 
+
+/* button styling css */
+
 .vertical-spacing {
   height: 20px; /* Adjust the height value as needed */
+}
+
+/* styles.css */
+
+/* Add margin-bottom to the buttons */
+.btn-space {
+  margin-bottom: 15px; /* Adjust this value to control the spacing */
+}
+
+/* Customize button appearance */
+.btn-custom {
+  padding: 20px; /* Adjust this value to make the buttons thicker */
+  font-size: 18px; /* Adjust this value to change text size */
+  font-weight: bold;
+}
+
+/* TEXT INPUT AREA */
+
+.grey-input {
+  background-color: #C5C6D0;
 }

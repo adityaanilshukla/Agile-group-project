@@ -1,0 +1,31 @@
+<%- include("partials/header"); -%>
+
+<div class="container">
+  <h1>Create a savings plan</h1>
+
+  <div class="vertical-spacing"></div>
+
+  <h2>Enter your savings goal</h2>
+
+  <form action="/planning" method="POST">
+    <div class="form-group">
+      <input type="number" class="form-control grey-input" name="savingsGoal" placeholder="Savings Goal" required>
+    </div>
+
+    <h2>Enter your monthly savings</h2>
+
+    <div class="form-group">
+      <input type="number" class="form-control grey-input" name="savingsGoal" placeholder="Savings Goal" required>
+    </div>
+
+    <h2>Enter your target date</h2>
+    <input class="form-control grey-input type=" type="date" name="targetDate">
+
+    <div class="vertical-spacing"></div>
+    <div class="vertical-spacing"></div>
+
+    <button type="submit" class="btn btn-success btn-block">Create Plan</button>
+  </form>
+</div>
+
+<%- include("partials/footer"); -%>
