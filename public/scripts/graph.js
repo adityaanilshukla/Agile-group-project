@@ -1,20 +1,4 @@
-<%- include("partials/header"); -%>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
-</script>
-
-<h1>Inflation Expense Projection</h1>
-
-<div class="vertical-spacing"></div>
-
-<canvas id="myChart" style="width:100%;max-width:1000px"></canvas>
-
-<script>
-    const userExpenses = [500 * 12, 500 * 12, 500 * 12, 500 * 12, 500 * 12];
-    const compoundedExpenses = [...userExpenses]; //make a copy of userExpenses array
-    const inflation = 0.067
-
-    function plotInflationGraph(userExpenses, compoundedExpenses, inflation) {
+ function plotInflationGraph(userExpenses, compoundedExpenses, inflation) {
         const currentYear = new Date().getFullYear();
         const years = [];
         for (let i = 0; i < 5; i++) {
@@ -97,19 +81,3 @@
             }
         });
     }
-
-    const projectedIncrease = (compoundedExpenses[1] - userExpenses[0]).toFixed(2);
-    const monthlySavingsRequired = (projectedIncrease / 12).toFixed(2);
-
-    
-    textContent = `Your expenses are estimated to increase by $${projectedIncrease} in the next year. Reduce your monthly expenses by $${monthlySavingsRequired} a month to reach your targets`;
-
-
-    plotInflationGraph(userExpenses, compoundedExpenses, inflation)
-</script>
-
-<p>Your expenses are estimated to incerease by $300 in the next year. Reduce your monthly expenses by $45 a month to
-    reach your targets</p>
-
-
-<%- include("partials/footer"); -%>

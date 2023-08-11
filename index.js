@@ -37,6 +37,10 @@ app.get('/projection', (req, res) => {
     res.render('projection');
 })
 
+app.get('/recommendation', (req, res) => {
+    res.render('recommendation');
+})
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
