@@ -4,19 +4,20 @@ html {
 }
 
 .container-fluid {
-    padding-top: 70px;
-    padding-bottom: 70px;
+  padding-top: 70px;
+  padding-bottom: 70px;
 }
+
 .navbar {
-    padding-top: 15px;
-    padding-bottom: 15px;
-    border: 0;
-    border-radius: 0;
-    margin-bottom: 0;
-    font-size: 12px;
-    letter-spacing: 5px;
-	background-color: forestgreen ;
+  padding-top: 10px;
+  border: 0;
+  border-radius: 0;
+  margin-bottom: 0;
+  font-size: 12px;
+  letter-spacing: 5px;
+  background-color: forestgreen;
 }
+
 /* Style for blog subtitle */
 .navbar-brand {
   color: white !important;
@@ -32,50 +33,36 @@ html {
   color: black !important;
 }
 
-.footer-padding {
-	padding-bottom: 60px;
-}
-
-.footer {
-	position: absolute;
-	text-align: center;
-	bottom: 0;
-	width: 100%;
-	height: 60px;
-	background-color: forestgreen;
-}
-
-.footer p {
-	margin-top: 25px;
-	font-size: 12px;
-  color: #fff;
-}
-
 .card {
   background-color: white;
   border: 1px solid lightgray;
   padding: 20px;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Optional: Add a subtle shadow effect */
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  /* Optional: Add a subtle shadow effect */
 }
 
 
 /* button styling css */
 
 .vertical-spacing {
-  height: 20px; /* Adjust the height value as needed */
+  height: 20px;
+  /* Adjust the height value as needed */
 }
 
 /* styles.css */
 
 /* Add margin-bottom to the buttons */
 .btn-space {
-  margin-bottom: 15px; /* Adjust this value to control the spacing */
+  margin-bottom: 25px;
+  /* Adjust this value to control the spacing */
 }
 
 /* Customize button appearance */
 .btn-custom {
-  padding: 20px; /* Adjust this value to make the buttons thicker */
-  font-size: 18px; /* Adjust this value to change text size */
+  padding: 20px;
+  /* Adjust this value to make the buttons thicker */
+  font-size: 18px;
+  /* Adjust this value to change text size */
   font-weight: bold;
 }
 
@@ -150,7 +137,7 @@ html {
 
 /*Style for home page article*/
 .articles {
-  position:relative;
+  position: relative;
   padding-top: 640px;
 }
 
@@ -160,15 +147,15 @@ html {
 }
 
 .article-img1 {
-  position:relative;
+  position: relative;
   width: 500px;
   display: block;
-  margin-right: auto;  
+  margin-right: auto;
   border: 10px solid #228B22;
 }
 
 .article-img2 {
-  position:relative;
+  position: relative;
   width: 500px;
   display: block;
   margin-right: auto;
@@ -176,30 +163,11 @@ html {
 }
 
 .article-img3 {
-  position:relative;
+  position: relative;
   width: 500px;
   display: block;
   margin-right: auto;
   border: 10px solid #228B22;
-}
-
-.footer-padding {
-  padding-bottom: 60px;
-}
-
-.footer {
-  position: absolute;
-  text-align: center;
-  bottom: 0;
-  width: 100%;
-  height: 60px;
-  background-color: forestgreen;
-}
-
-.footer p {
-  margin-top: 25px;
-  font-size: 12px;
-  color: #fff;
 }
 
 .card {
@@ -208,4 +176,53 @@ html {
   padding: 20px;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   /* Optional: Add a subtle shadow effect */
+}
+
+/* footer sytles */
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: #212329;
+}
+
+.footer p {
+  margin-top: 25px;
+  font-size: 12px;
+  color: #fff;
+}
+
+.footer h2 {
+  color: grey;
+  font-family: 'Strait', sans-serif;
+  font-weight: bold;
+
+}
+
+.footer-column h2 {
+  margin-left: 5%;
+}
+
+.footer-column a {
+  color: white;
+  display: block;
+  margin-bottom: 5px;
+  /* Added margin to separate the links */
+  text-decoration: none;
+  /* Remove underline from links */
+  margin-left: 5%;
+}
+
+.footer-heading a:hover {
+  color: lightgreen;
+  transition: 0.3s ease-out;
+}
+
+.footer-copyright {
+  text-align: center;
+}
+
+.footer-padding {
+  padding-bottom: 60px;
 }
