@@ -3,6 +3,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
 </script>
 
+  <script src="/scripts/graph.js">
+</script>
+
 <h1>Inflation Expense Projection</h1>
 
 <div class="vertical-spacing"></div>
@@ -10,102 +13,13 @@
 <canvas id="myChart" style="width:100%;max-width:1000px"></canvas>
 
 <script>
-    const userExpenses = [500 * 12, 500 * 12, 500 * 12, 500 * 12, 500 * 12];
-    const compoundedExpenses = [...userExpenses]; //make a copy of userExpenses array
-    const inflation = 0.067
 
-    function plotInflationGraph(userExpenses, compoundedExpenses, inflation) {
-        const currentYear = new Date().getFullYear();
-        const years = [];
-        for (let i = 0; i < 5; i++) {
-            years.push(currentYear + i);
-        }
+  const userExpenses = [500 * 12, 500 * 12, 500 * 12, 500 * 12, 500 * 12];
+  const compoundedExpenses = [...userExpenses]; //make a copy of userExpenses array
+  const inflation = 0.067
+  
+  plotInflationGraph(userExpenses, compoundedExpenses, inflation);
 
-
-
-        // Calculate compounded expenses with inflation
-        for (let i = 1; i < compoundedExpenses.length; i++) {
-            compoundedExpenses[i] = compoundedExpenses[i - 1] * (1 + inflation);
-        }
-
-        new Chart("myChart", {
-            type: "line",
-            data: {
-                labels: years,
-                datasets: [{
-                    data: compoundedExpenses,
-                    label: "Projected Expenses (5% Inflation)",
-                    borderColor: "red",
-                    fill: false
-                }, {
-                    data: userExpenses,
-                    label: "Your current expenses",
-                    borderColor: "blue",
-                    fill: false
-                }]
-            },
-            options: {
-                legend: {
-                    display: true
-                },
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: false,
-                            callback: function (value, index, values) {
-                                return '$' + value;
-                            }
-                        }
-                    }]
-                },
-                tooltips: {
-                    mode: 'index',
-                    intersect: false,
-                    callbacks: {
-                        label: function (tooltipItem, data) {
-                            const datasetLabel = data.datasets[tooltipItem.datasetIndex].label || '';
-                            const value = '$' + tooltipItem.yLabel.toFixed(2);
-                            return datasetLabel + ': ' + value;
-                        }
-                    }
-                },
-                title: {
-                    display: true,
-                    text: 'Expense Projection Over 5 Years',
-                    fontSize: 16
-                },
-                scales: {
-                    xAxes: [{
-                        scaleLabel: {
-                            display: true,
-                            labelString: 'Years'
-                        }
-                    }],
-                    yAxes: [{
-                        scaleLabel: {
-                            display: true,
-                            labelString: 'Expenses ($)'
-                        },
-                        ticks: {
-                            beginAtZero: false,
-                            callback: function (value, index, values) {
-                                return '$' + value;
-                            }
-                        }
-                    }]
-                }
-            }
-        });
-    }
-
-    const projectedIncrease = (compoundedExpenses[1] - userExpenses[0]).toFixed(2);
-    const monthlySavingsRequired = (projectedIncrease / 12).toFixed(2);
-
-    
-    textContent = `Your expenses are estimated to increase by $${projectedIncrease} in the next year. Reduce your monthly expenses by $${monthlySavingsRequired} a month to reach your targets`;
-
-
-    plotInflationGraph(userExpenses, compoundedExpenses, inflation)
 </script>
 
 <p>Your expenses are estimated to incerease by $300 in the next year. Reduce your monthly expenses by $45 a month to

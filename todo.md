@@ -1,7 +1,7 @@
 # Finance Expenses Tracker
 
 ## Scripts
-- [ ] Make a graph.js file and make hte projections.ejs page use it
+
 
 ## Navbar
 - [ ] add an x icon to expand the navbar options when in mobile view
@@ -22,4 +22,4 @@
 
 
 ## Completed Column
-
+- [x] Make a graph.js file and make the projections.ejs page use it
