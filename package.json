@@ -4,13 +4,15 @@
   "description": "Team 97 Agile Group Project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
   },
   "author": "Aditya Shukla",
   "license": "MIT",
   "dependencies": {
     "ejs": "^3.1.9",
     "express": "^4.18.2",
+    "nodemon": "^3.0.1",
     "sqlite3": "^5.1.6"
   }
 }
