@@ -41,6 +41,18 @@ html {
   /* Optional: Add a subtle shadow effect */
 }
 
+/*page content styling*/
+
+.page-content-section {
+  position: relative;
+  padding-bottom: 25%; /* Default padding */
+
+  /* Adjust padding for smaller screens */
+  @media (max-width: 768px) {
+    padding-bottom: 100%;
+  }
+}
+
 
 /* button styling css */
 
