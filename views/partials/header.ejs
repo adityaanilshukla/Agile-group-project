@@ -8,7 +8,6 @@
   <!-- import Strait font from google -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&family=Strait&display=swap" rel="stylesheet">
 
-
   <!-- bootstrap styles and local stylesheet -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -16,13 +15,21 @@
 
   <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
 
-
+  <!-- Add viewport meta tag for responsiveness -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
+  <!-- Add a collapsible navigation button -->
   <nav class="navbar navbar-default">
     <div class="container">
       <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
         <a href="/">
           <img class="navbar-brand" src="img/logo.png" height="150">
         </a>
@@ -30,15 +37,21 @@
           <p class="navbar-brand">Finance Tracker</p>
         </a>
       </div>
-      <ul class="nav navbar-nav navbar-right">
-        <li id="points"><a href="/">Home</a></li>
-        <li id="points"><a href="/points">Points</a></li>
-        <li id="planning"><a href="/planning">Planning</a></li>
-        <li id="expenses"><a href="/expenses">Expenses</a></li>
-        <li id="community"><a href="/community">Community</a></li>
-        <li id="recommendation"><a href="/recommendation">Recommendation</a></li>
-      </ul>
+
+      <!-- Add a collapse container for the navigation links -->
+      <div class="collapse navbar-collapse" id="navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li id="points"><a href="/">Home</a></li>
+          <li id="points"><a href="/points">Points</a></li>
+          <li id="planning"><a href="/planning">Planning</a></li>
+          <li id="expenses"><a href="/expenses">Expenses</a></li>
+          <li id="community"><a href="/community">Community</a></li>
+          <li id="recommendation"><a href="/recommendation">Recommendation</a></li>
+        </ul>
+      </div>
     </div>
   </nav>
 
-  <div class="container">
+
+<div class="container">
+  <!-- page content goes here -->
