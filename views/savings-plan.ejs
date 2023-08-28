@@ -1,5 +1,7 @@
 <%- include("partials/header"); -%>
 
+<script src="/scripts/savings-plan.js"></script>
+
 <div class="container">
   <h1>Create a savings plan</h1>
 
@@ -15,11 +17,11 @@
     <h2>Enter your monthly savings</h2>
 
     <div class="form-group">
-      <input type="number" class="form-control grey-input" name="savingsGoal" placeholder="Savings Goal" required>
+      <input type="number" class="form-control grey-input" id="monthlySavings" name="monthlySavings" placeholder="Monthly Savings" required>
     </div>
 
     <h2>Enter your target date</h2>
-    <input class="form-control grey-input type=" type="date" name="targetDate">
+      <input class="form-control grey-input type=" type="date" name="targetDate" id="targetDate">
 
     <div class="vertical-spacing"></div>
     <div class="vertical-spacing"></div>
