@@ -41,18 +41,27 @@ html {
   /* Optional: Add a subtle shadow effect */
 }
 
+/*Projections sections*/
+.expense-card {
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+.expense-card p {
+  color: red;
+}
+
 /*page content styling*/
 
 .page-content-section {
   position: relative;
-  padding-bottom: 25%; /* Default padding */
+  padding-bottom: 48%; /* Default padding */
 
   /* Adjust padding for smaller screens */
   @media (max-width: 768px) {
     padding-bottom: 100%;
   }
 }
-
 
 /* button styling css */
 
@@ -81,10 +90,8 @@ html {
 /* TEXT INPUT AREA */
 
 .grey-input {
-  background-color: #C5C6D0;
+  background-color: #c5c6d0;
 }
-
-
 
 /* Style for home page carousel */
 .carousel-slideshow {
@@ -124,26 +131,26 @@ html {
   margin-top: 15px;
 }
 
-.carousel-slideshow>img {
+.carousel-slideshow > img {
   position: absolute;
   top: 0;
   opacity: 0;
   animation: display 10s infinite;
 }
 
-.carousel-slideshow>img:nth-child(2) {
+.carousel-slideshow > img:nth-child(2) {
   animation-delay: 2s;
 }
 
-.carousel-slideshow>img:nth-child(3) {
+.carousel-slideshow > img:nth-child(3) {
   animation-delay: 4s;
 }
 
-.carousel-slideshow>img:nth-child(4) {
+.carousel-slideshow > img:nth-child(4) {
   animation-delay: 6s;
 }
 
-.carousel-slideshow>img:nth-child(5) {
+.carousel-slideshow > img:nth-child(5) {
   animation-delay: 8s;
 }
 
@@ -153,8 +160,8 @@ html {
   padding-top: 640px;
 }
 
-.articles>h1 {
-  font-family: 'Courier New', monospace;
+.articles > h1 {
+  font-family: "Courier New", monospace;
   font-weight: 700;
 }
 
@@ -163,7 +170,7 @@ html {
   width: 500px;
   display: block;
   margin-right: auto;
-  border: 10px solid #228B22;
+  border: 10px solid #228b22;
 }
 
 .article-img2 {
@@ -171,7 +178,7 @@ html {
   width: 500px;
   display: block;
   margin-right: auto;
-  border: 10px solid #228B22;
+  border: 10px solid #228b22;
 }
 
 .article-img3 {
@@ -179,7 +186,7 @@ html {
   width: 500px;
   display: block;
   margin-right: auto;
-  border: 10px solid #228B22;
+  border: 10px solid #228b22;
 }
 
 .card {
@@ -207,9 +214,8 @@ html {
 
 .footer h2 {
   color: grey;
-  font-family: 'Strait', sans-serif;
+  font-family: "Strait", sans-serif;
   font-weight: bold;
-
 }
 
 .footer-column h2 {

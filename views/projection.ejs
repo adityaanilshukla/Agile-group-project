@@ -1,10 +1,8 @@
 <%- include("partials/header"); -%>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
-  <script src="/scripts/graph.js">
-</script>
+  <script src="/scripts/graph.js"></script>
 
 <h1>Inflation Expense Projection</h1>
 
@@ -22,7 +20,49 @@
 
 </script>
 
-<p>Your expenses are estimated to incerease by $300 in the next year. Reduce your monthly expenses by $45 a month to
+<h2>Expenses for this month</h2>
+
+<div class = "expense-card">
+<h4>Total expenses</h4>
+<div class="card">
+  <p>Net: $600.00<p>
+</div>
+</div>
+
+
+<div class = "expense-card">
+<h4>Food</h4>
+<div class="card">
+  <p>McDonald's: $107.14<p>
+  <p>KFC: $57.34<p>
+  <p>Food Court: $73.43<p>
+</div>
+</div>
+
+
+<div class = "expense-card">
+<h4>Utilities</h4>
+<div class="card">
+  <p>Electricity Bill: $31.90<p>
+  <p>Water Bill: $31.90<p>
+  <p>Public Transport: $77.78<p>
+</div>
+</div>
+
+<div class = "expense-card">
+<h4>Entertainment</h4>
+<div class="card">
+  <p>Netflix: $18.00<p>
+  <p>Disney Plus: $12.34<p>
+  <p>Amazon Prime Video: $2.56<p>
+</div>
+</div>
+
+
+<div class="vertical-spacing"></div>
+<div class="vertical-spacing"></div>
+
+<p>Your monthly expenses are estimated to incerease by $300 in the next year. Reduce your monthly expenses by $45 a month to
     reach your targets</p>
 
 <%- include("partials/footer"); -%>
