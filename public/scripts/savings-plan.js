@@ -1,98 +1,110 @@
-// fills date section automatically when the user fills up savins
-// goal and monthly savings
-document.addEventListener("DOMContentLoaded", function () {
-  const monthlySavingsInput = document.getElementById("monthlySavings");
-  const targetDateInput = document.getElementById("targetDate");
-
-  monthlySavingsInput.addEventListener("input", function () {
-    const savingsGoal = parseFloat(
-      document.querySelector("[name=savingsGoal]").value,
-    );
-    const monthlySavings = parseFloat(monthlySavingsInput.value);
-
-    if (savingsGoal && monthlySavings) {
-      const currentDate = new Date();
-      const monthsToReachGoal = Math.ceil(savingsGoal / monthlySavings);
-      const targetDate = new Date(
-        currentDate.getFullYear(),
-        currentDate.getMonth() + monthsToReachGoal,
-        currentDate.getDate(),
-      );
-
-      const year = targetDate.getFullYear();
-      const month = String(targetDate.getMonth() + 1).padStart(2, "0");
-      const day = String(targetDate.getDate()).padStart(2, "0");
-
-      targetDateInput.value = `${year}-${month}-${day}`;
-    } else {
-      targetDateInput.value = "";
-    }
-  });
-});
-
-//fills savings goal automatically when the user fills up
-//monthly savings and target date
 document.addEventListener("DOMContentLoaded", function () {
   const monthlySavingsInput = document.getElementById("monthlySavings");
   const targetDateInput = document.getElementById("targetDate");
   const savingsGoalInput = document.querySelector("[name=savingsGoal]");
+  let lastEditedFields = []; // Array to store the last two edited fields
+  let timeout;
 
   monthlySavingsInput.addEventListener("input", function () {
-    updateSavingsGoal();
+    updateLastEditedFields("monthlySavings");
+    clearTimeout(timeout);
+    timeout = setTimeout(updateFields, 1000);
   });
 
   targetDateInput.addEventListener("input", function () {
-    updateSavingsGoal();
+    updateLastEditedFields("targetDate");
+    clearTimeout(timeout);
+    timeout = setTimeout(updateFields, 1000);
   });
 
+  savingsGoalInput.addEventListener("input", function () {
+    updateLastEditedFields("savingsGoal");
+    clearTimeout(timeout);
+    timeout = setTimeout(updateFields, 1000);
+  });
+
+  function removeDuplicates(arr) {
+    return [...new Set(arr)];
+  }
+
+  function updateLastEditedFields(fieldName) {
+    lastEditedFields.push(fieldName);
+    lastEditedFields = removeDuplicates(lastEditedFields);
+    if (lastEditedFields.length > 2) {
+      lastEditedFields.shift();
+    }
+  }
+
+  function updateFields() {
+    if (
+      (lastEditedFields.length == 2) &
+      !lastEditedFields.includes("savingsGoal")
+    ) {
+      updateSavingsGoal();
+    }
+    if (
+      (lastEditedFields.length == 2) &
+      !lastEditedFields.includes("monthlySavings")
+    ) {
+      updateMonthlySavings();
+    }
+    if (
+      (lastEditedFields.length == 2) &
+      !lastEditedFields.includes("targetDate")
+    ) {
+      updateTargetDate();
+    }
+  }
+
   function updateSavingsGoal() {
-    const targetDateValue = targetDateInput.value;
-    const currentDate = new Date();
-    const targetDate = new Date(targetDateValue);
-
-    if (!isNaN(targetDate.getTime()) && targetDate > currentDate) {
-      const monthsToReachGoal = Math.floor(
-        (targetDate - currentDate) / (30 * 24 * 60 * 60 * 1000),
-      );
+    if (!lastEditedFields.includes("savingsGoal")) {
       const monthlySavings = parseFloat(monthlySavingsInput.value);
+      const targetDate = new Date(targetDateInput.value);
 
-      if (!isNaN(monthlySavings)) {
+      if (!isNaN(monthlySavings) && !isNaN(targetDate.getTime())) {
+        const monthsToReachGoal = Math.floor(
+          (targetDate - new Date()) / (30 * 24 * 60 * 60 * 1000),
+        );
         const calculatedSavingsGoal = monthsToReachGoal * monthlySavings;
         savingsGoalInput.value = calculatedSavingsGoal.toFixed(2);
       }
     }
   }
-});
-
-//fills up monthly savings when user fills up the savins goal
-//and the target date
-document.addEventListener("DOMContentLoaded", function () {
-  const monthlySavingsInput = document.getElementById("monthlySavings");
-  const targetDateInput = document.getElementById("targetDate");
-  const savingsGoalInput = document.querySelector("[name=savingsGoal]");
-
-  savingsGoalInput.addEventListener("input", function () {
-    updateMonthlySavings();
-  });
-
-  targetDateInput.addEventListener("input", function () {
-    updateMonthlySavings();
-  });
 
   function updateMonthlySavings() {
-    const targetDateValue = targetDateInput.value;
-    const currentDate = new Date();
-    const targetDate = new Date(targetDateValue);
-
-    if (!isNaN(targetDate.getTime()) && targetDate > currentDate) {
-      const monthsToReachGoal = Math.floor(
-        (targetDate - currentDate) / (30 * 24 * 60 * 60 * 1000),
-      );
+    if (!lastEditedFields.includes("monthlySavings")) {
       const savingsGoal = parseFloat(savingsGoalInput.value);
+      const targetDate = new Date(targetDateInput.value);
 
-      if (!isNaN(savingsGoal) && monthsToReachGoal > 0) {
+      if (!isNaN(savingsGoal) && !isNaN(targetDate.getTime())) {
+        const monthsToReachGoal = Math.floor(
+          (targetDate - new Date()) / (30 * 24 * 60 * 60 * 1000),
+        );
         const calculatedMonthlySavings = savingsGoal / monthsToReachGoal;
         monthlySavingsInput.value = calculatedMonthlySavings.toFixed(2);
+      }
+    }
+  }
+
+  function updateTargetDate() {
+    if (!lastEditedFields.includes("targetDate")) {
+      const savingsGoal = parseFloat(savingsGoalInput.value);
+      const monthlySavings = parseFloat(monthlySavingsInput.value);
+
+      if (!isNaN(savingsGoal) && !isNaN(monthlySavings)) {
+        const currentDate = new Date();
+        const monthsToReachGoal = Math.ceil(savingsGoal / monthlySavings);
+        const targetDate = new Date(
+          currentDate.getFullYear(),
+          currentDate.getMonth() + monthsToReachGoal,
+          currentDate.getDate(),
+        );
+
+        const year = targetDate.getFullYear();
+        const month = String(targetDate.getMonth() + 1).padStart(2, "0");
+        const day = String(targetDate.getDate()).padStart(2, "0");
+
+        targetDateInput.value = `${year}-${month}-${day}`;
       }
     }
   }
