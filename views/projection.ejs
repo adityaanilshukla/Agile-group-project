@@ -12,57 +12,165 @@
 
 <script>
 
+  const inflation = 0.067
+  const five_year_income = [800*12, 800*12, 800*12, 800*12, 800*12];
   const userExpenses = [500 * 12, 500 * 12, 500 * 12, 500 * 12, 500 * 12];
   const compoundedExpenses = [...userExpenses]; //make a copy of userExpenses array
-  const inflation = 0.067
+  const salaryIncreasePercentage = 0.066
   
-  plotInflationGraph(userExpenses, compoundedExpenses, inflation);
+  //plotInflationGraph(userExpenses, compoundedExpenses, inflation);
+  plotIncomeExpensesGraph( five_year_income, userExpenses, inflation, salaryIncreasePercentage);
 
 </script>
 
-<h2>Expenses for this month</h2>
+<h2>Breakdown of projected expenses</h2>
 
-<div class = "expense-card">
-<h4>Total expenses</h4>
-<div class="card">
-  <p>Net: $600.00<p>
-</div>
-</div>
+<% expenses = [{name: "Amount spent this year", amount: 15000.14}]%>
+<% sectionTitle = "Annual expense Projection"; %>
 
 
-<div class = "expense-card">
-<h4>Food</h4>
-<div class="card">
-  <p>McDonald's: $107.14<p>
-  <p>KFC: $57.34<p>
-  <p>Food Court: $73.43<p>
-</div>
+<div class="expense-card">
+  <div class="card">
+    <h4><%= sectionTitle %></h4> 
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Expense Item</th>
+          <% for (let i = 0; i < 5; i++) { %>
+            <th><%= currentYear + i %></th>
+          <% } %>
+        </tr>
+      </thead>
+      <tbody>
+        <% expenses.forEach((item, index) => { %>
+          <tr>
+            <td><%= item.name %></td>
+            <% for (let i = 0; i < 5; i++) { %>
+              <td>
+                $<%= (item.amount * Math.pow(1 + inflation, i)).toFixed(2) %>
+                <% if (i > 0) { %> <!-- Adding the '+' for subsequent years -->
+                  <br>
+                  <span class="plus-amount">+ $<%= ((item.amount * Math.pow(1 + inflation, i)) - (item.amount * Math.pow(1 + inflation, i - 1))).toFixed(2) %></span>
+                <% } %>
+              </td>
+            <% } %>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 
-<div class = "expense-card">
-<h4>Utilities</h4>
-<div class="card">
-  <p>Electricity Bill: $31.90<p>
-  <p>Water Bill: $31.90<p>
-  <p>Public Transport: $77.78<p>
-</div>
+<% expenses = [{name: "Mcdonalds", amount: 107.14},{name: "KFC",amount: 57.34},{ name: "Food Court", amount: 73.43},];%>
+<% sectionTitle = "Food"; %>
+
+<div class="expense-card">
+  <div class="card">
+    <h4><%= sectionTitle %></h4> 
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Expense Item</th>
+          <% for (let i = 0; i < 5; i++) { %>
+            <th><%= currentYear + i %></th>
+          <% } %>
+        </tr>
+      </thead>
+      <tbody>
+        <% expenses.forEach((item, index) => { %>
+          <tr>
+            <td><%= item.name %></td>
+            <% for (let i = 0; i < 5; i++) { %>
+              <td>
+                $<%= (item.amount * Math.pow(1 + inflation, i)).toFixed(2) %>
+                <% if (i > 0) { %> <!-- Adding the '+' for subsequent years -->
+                  <br>
+                  <span class="plus-amount">+ $<%= ((item.amount * Math.pow(1 + inflation, i)) - (item.amount * Math.pow(1 + inflation, i - 1))).toFixed(2) %></span>
+                <% } %>
+              </td>
+            <% } %>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
 </div>
 
-<div class = "expense-card">
-<h4>Entertainment</h4>
-<div class="card">
-  <p>Netflix: $18.00<p>
-  <p>Disney Plus: $12.34<p>
-  <p>Amazon Prime Video: $2.56<p>
+<%expenses = [{name: "Electricity Bill", amount: 31.90 }, {name: "Water Bill", amount: 30.89}, {name: "Public Transport", amount: 77.78}];%>
+<% sectionTitle = "Utilities"; %>
+
+
+<div class="expense-card">
+  <div class="card">
+    <h4><%= sectionTitle %></h4> 
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Expense Item</th>
+          <% for (let i = 0; i < 5; i++) { %>
+            <th><%= currentYear + i %></th>
+          <% } %>
+        </tr>
+      </thead>
+      <tbody>
+        <% expenses.forEach((item, index) => { %>
+          <tr>
+            <td><%= item.name %></td>
+            <% for (let i = 0; i < 5; i++) { %>
+              <td>
+                $<%= (item.amount * Math.pow(1 + inflation, i)).toFixed(2) %>
+                <% if (i > 0) { %> <!-- Adding the '+' for subsequent years -->
+                  <br>
+                  <span class="plus-amount">+ $<%= ((item.amount * Math.pow(1 + inflation, i)) - (item.amount * Math.pow(1 + inflation, i - 1))).toFixed(2) %></span>
+                <% } %>
+              </td>
+            <% } %>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
 </div>
+
+
+<% expenses = [{name: "Netflix", amount: 107.14},{name: "Disney Plus",amount: 57.34},{ name: "Amazon Primevideo", amount: 73.43},];%>
+<% sectionTitle = "Entertainment"; %>
+
+<div class="expense-card">
+  <div class="card">
+    <h4><%= sectionTitle %></h4> 
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Expense Item</th>
+          <% for (let i = 0; i < 5; i++) { %>
+            <th><%= currentYear + i %></th>
+          <% } %>
+        </tr>
+      </thead>
+      <tbody>
+        <% expenses.forEach((item, index) => { %>
+          <tr>
+            <td><%= item.name %></td>
+            <% for (let i = 0; i < 5; i++) { %>
+              <td>
+                $<%= (item.amount * Math.pow(1 + inflation, i)).toFixed(2) %>
+                <% if (i > 0) { %> <!-- Adding the '+' for subsequent years -->
+                  <br>
+                  <span class="plus-amount">+ $<%= ((item.amount * Math.pow(1 + inflation, i)) - (item.amount * Math.pow(1 + inflation, i - 1))).toFixed(2) %></span>
+                <% } %>
+              </td>
+            <% } %>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 
 <div class="vertical-spacing"></div>
 <div class="vertical-spacing"></div>
-
-<p>Your monthly expenses are estimated to incerease by $300 in the next year. Reduce your monthly expenses by $45 a month to
-    reach your targets</p>
 
 <%- include("partials/footer"); -%>
