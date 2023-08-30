@@ -38,7 +38,7 @@ function plotInflationGraph(userExpenses, compoundedExpenses, inflation) {
           {
             ticks: {
               beginAtZero: false,
-              callback: function (value, index, values) {
+              callback: function(value, index, values) {
                 return "$" + value;
               },
             },
@@ -49,7 +49,7 @@ function plotInflationGraph(userExpenses, compoundedExpenses, inflation) {
         mode: "index",
         intersect: false,
         callbacks: {
-          label: function (tooltipItem, data) {
+          label: function(tooltipItem, data) {
             const datasetLabel =
               data.datasets[tooltipItem.datasetIndex].label || "";
             const value = "$" + tooltipItem.yLabel.toFixed(2);
@@ -79,7 +79,7 @@ function plotInflationGraph(userExpenses, compoundedExpenses, inflation) {
             },
             ticks: {
               beginAtZero: false,
-              callback: function (value, index, values) {
+              callback: function(value, index, values) {
                 return "$" + value;
               },
             },

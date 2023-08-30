@@ -31,18 +31,23 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
   //removes duplicates from lastedited array
-  //prevents instances of array = [monthlyExpenditure, monthlyExpenditure]
+  //prevents instances of lastedited = [monthlyExpenditure, monthlyExpenditure]
   function removeDuplicates(arr) {
     return [...new Set(arr)];
   }
 
   //remove the oldest edited field
+  //include the latest one
   function updateLastEditedFields(fieldName) {
     lastEditedFields.push(fieldName);
     lastEditedFields = removeDuplicates(lastEditedFields);
     if (lastEditedFields.length > 2) {
       lastEditedFields.shift();
     }
+  }
+
+  function ExpenseHigherThanIncomeAlert() {
+    alert("Monthly expenses cannot be higher than your monthly income!");
   }
 
   //updates the field that was not last edited
@@ -85,6 +90,8 @@ document.addEventListener("DOMContentLoaded", function() {
           const calculatedSavingsGoal = monthsToReachGoal * monthlySavings;
           savingsGoalInput.value = calculatedSavingsGoal.toFixed(2);
         }
+      } else {
+        ExpenseHigherThanIncomeAlert();
       }
     }
   }
@@ -138,6 +145,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
           targetDateInput.value = `${year}-${month}-${day}`;
         }
+      } else {
+        ExpenseHigherThanIncomeAlert();
       }
     }
   }
