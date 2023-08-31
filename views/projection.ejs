@@ -27,7 +27,8 @@
 
 <% expenses = [{name: "Amount spent this year", amount: 15000.14}]%>
 <% sectionTitle = "Annual expense Projection"; %>
-
+<% currentYear = new Date().getFullYear(); %>
+<% inflation = 0.06; %>
 
 <div class="expense-card">
   <div class="card">

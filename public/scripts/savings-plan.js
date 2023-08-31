@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     if (
       (lastEditedFields.length == 2) &
-      !lastEditedFields.includes("monthlyExpenditure")
+      !lastEditedFields.includes("income/expense")
     ) {
       updateMonthlyExpenses();
     }
@@ -75,8 +75,12 @@ document.addEventListener("DOMContentLoaded", function() {
   //auto set user's savings goal using the target date and the monthly savings
   function updateSavingsGoal() {
     if (!lastEditedFields.includes("savingsGoal")) {
-      const monthlyIncome = parseFloat(monthlyIncomeInput.value);
-      const monthlyExpenditure = parseFloat(monthlyExpenditureInput.value);
+      let monthlyIncome = parseFloat(monthlyIncomeInput.value);
+      let monthlyExpenditure = parseFloat(monthlyExpenditureInput.value);
+
+      if (isNaN(monthlyExpenditure)) {
+        monthlyExpenditure = 0;
+      }
 
       if (monthlyIncome > monthlyExpenditure) {
         const monthlySavings = monthlyIncome - monthlyExpenditure;
@@ -98,10 +102,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
   //update monthly expenses to reach users goal within the targeted time
   function updateMonthlyExpenses() {
-    if (!lastEditedFields.includes("monthlyExpenditure")) {
-      const savingsGoal = parseFloat(savingsGoalInput.value);
-      const targetDate = new Date(targetDateInput.value);
-      const monthlyIncome = parseFloat(monthlyIncomeInput.value);
+    if (!lastEditedFields.includes("income/expense")) {
+      let savingsGoal = parseFloat(savingsGoalInput.value);
+      let targetDate = new Date(targetDateInput.value);
+      let monthlyIncome = parseFloat(monthlyIncomeInput.value);
 
       if (!isNaN(savingsGoal) && !isNaN(targetDate.getTime())) {
         const monthsToReachGoal = Math.floor(
@@ -122,10 +126,14 @@ document.addEventListener("DOMContentLoaded", function() {
   //update the users targeted date using saving goal and monhly savings
   function updateTargetDate() {
     if (!lastEditedFields.includes("targetDate")) {
-      const savingsGoal = parseFloat(savingsGoalInput.value);
+      let savingsGoal = parseFloat(savingsGoalInput.value);
 
-      const monthlyIncome = parseFloat(monthlyIncomeInput.value);
-      const monthlyExpenditure = parseFloat(monthlyExpenditureInput.value);
+      let monthlyIncome = parseFloat(monthlyIncomeInput.value);
+      let monthlyExpenditure = parseFloat(monthlyExpenditureInput.value);
+
+      if (isNaN(monthlyExpenditure)) {
+        monthlyExpenditure = 0;
+      }
 
       if (monthlyIncome > monthlyExpenditure) {
         const monthlySavings = monthlyIncome - monthlyExpenditure;
