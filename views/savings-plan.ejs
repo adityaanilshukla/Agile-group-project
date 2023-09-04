@@ -11,26 +11,67 @@
 
   <form action="/planning" method="POST">
     <div class="form-group">
-      <input type="number" class="form-control grey-input" name="savingsGoal" placeholder="Savings Goal" required>
+      <input type="number" step="any" class="form-control grey-input" name="savingsGoal" id="savingsGoal" placeholder="Savings Goal" required>
     </div>
 
     <h2>Enter your monthly Income</h2>
 
     <div class="form-group">
-      <input type="number" class="form-control grey-input" id="monthlyIncome" name="monthlyIncome" placeholder="Monthly Income" required>
+      <input type="number" step="any"  class="form-control grey-input" id="monthlyIncome" name="monthlyIncome" placeholder="Monthly Income" required>
     </div>
 
     <h2>Enter your monthly Expenditure</h2>
 
     <div class="form-group">
-      <input type="number" class="form-control grey-input" id="monthlyExpenditure" name="monthlyExpenditure" placeholder="Monthly Expenditure" required>
+      <input type="number" step="any" class="form-control grey-input" id="monthlyExpenditure" name="monthlyExpenditure" placeholder="Monthly Expenditure" required>
     </div>
 
     <h2>Enter your target date</h2>
-    <input class="form-control grey-input type=" type="date" name="targetDate" id="targetDate">
+    <input class="form-control grey-input" type="date" name="targetDate" id="targetDate">
 
     <div class="vertical-spacing"></div>
     <div class="vertical-spacing"></div>
+
+  <div class="slider-container">
+    <% let inflationRateValue = 0; %>
+    <label for="inflationRate">Inflation Rate (%):</label>
+    <input type="range" id="inflationRate" name="inflationRate" min="0" max="10" value="<%= inflationRateValue %>" step="0.1">
+    <span id="inflationValue"><%= inflationRateValue %></span>
+  </div>
+
+  <div class="slider-container">
+    <% let salaryIncreaseRateValue = 0; %>
+    <label for="salaryIncreaseRate">Salary Increase Rate (%):</label>
+    <input type="range" id="salaryIncreaseRate" name="salaryIncreaseRate" min="0" max="10" value="<%= salaryIncreaseRateValue %>" step="0.1">
+    <span id="salaryIncreaseValue"><%= salaryIncreaseRateValue %></span>
+  </div>
+
+  <script>
+    // Get the inflation rate and salary increase rate elements
+    const inflationRateInput = document.getElementById("inflationRate");
+    const salaryIncreaseRateInput = document.getElementById("salaryIncreaseRate");
+    
+    // Get the span elements for displaying the values
+    const inflationValueSpan = document.getElementById("inflationValue");
+    const salaryIncreaseValueSpan = document.getElementById("salaryIncreaseValue");
+
+    // Update the span elements when the slider values change
+    inflationRateInput.addEventListener("input", function() {
+      inflationValueSpan.textContent = inflationRateInput.value;
+    });
+
+    salaryIncreaseRateInput.addEventListener("input", function() {
+      salaryIncreaseValueSpan.textContent = salaryIncreaseRateInput.value;
+    });
+
+
+
+
+
+
+
+
+  </script>
 
     <button type="submit" class="btn btn-success btn-block">Create Plan</button>
   </form>
