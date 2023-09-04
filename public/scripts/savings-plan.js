@@ -1,3 +1,8 @@
+function isDateAfter(startDate, targetDate) {
+  // Compare the timestamps of startDate and targetDate
+  return targetDate.getTime() > startDate.getTime();
+}
+
 document.addEventListener("DOMContentLoaded", function() {
   const monthlyIncomeInput = document.getElementById("monthlyIncome");
   const monthlyExpenditureInput = document.getElementById("monthlyExpenditure");
@@ -76,19 +81,8 @@ document.addEventListener("DOMContentLoaded", function() {
     alert("Savings goal not attainable within 50 years!");
   }
 
-  function parseDateInput(inputId) {
-    const input = document.getElementById(inputId);
-    if (input) {
-      const dateParts = input.value.split("-");
-      if (dateParts.length === 3) {
-        const year = parseInt(dateParts[0], 10);
-        const month = parseInt(dateParts[1], 10) - 1; // Months are 0-indexed
-        const day = parseInt(dateParts[2], 10);
-
-        return new Date(year, month, day);
-      }
-    }
-    return null; // Return null if parsing fails
+  function targetDateBeforeCurrentDateAlert() {
+    alert("Target date cannot be before current date!");
   }
 
   //updates the field that was not last edited
@@ -136,6 +130,11 @@ document.addEventListener("DOMContentLoaded", function() {
     targetDate.setMonth(targetDate.getMonth() + 1); // Add 1 to the month
     let startDate = new Date();
     let calculatedSavings = 0;
+
+    if (isDateAfter(startDate, targetDate)) {
+      targetDateBeforeCurrentDateAlert();
+      return;
+    }
 
     // monthlyIncome = 500;
     // monthlyExpenditure = 340;
@@ -255,6 +254,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
     let startDate = new Date();
     let calculatedSavings = 0;
+
+    if (isDateAfter(startDate, targetDate)) {
+      targetDateBeforeCurrentDateAlert();
+      return;
+    }
 
     //can the user even hit the target with 0 expenses
     let savingsWithNoExpenses = calculateSavings(
