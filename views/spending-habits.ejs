@@ -1,0 +1,41 @@
+<%- include("partials/header"); -%>
+
+<h1>Recommendations Based on Spending Habits</h1>
+
+<% const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]; %>
+
+<!-- Subsection 1: Your Spending Habits -->
+<h2>Your spending habits for <%= months[new Date().getMonth()] %> </h2>
+<div class="box" id="spendingHabitsBox">
+  <!-- Data will be populated here using JavaScript -->
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Category</th>
+        <th>Amount Total</th>
+        <th>Amount/Day</th>
+        <th>Compared to last month</th> <!-- New column -->
+      </tr>
+    </thead>
+    <tbody id="spendingHabitsTableBody">
+      <!-- Table rows will be populated here using JavaScript -->
+    </tbody>
+  </table>
+</div>
+
+<!-- Gap between table columns -->
+<div style="height: 20px;"></div>
+
+<!-- Days passed/total days of the month -->
+<div id="daysInfo"></div>
+
+<!-- Subsection 2: Recommendations Based on Spending Habits -->
+<h2>Recommendations Based on Spending Habits</h2>
+<div class="box" id="recommendationsBox">
+  <!-- Data will be populated here using JavaScript -->
+</div>
+
+<!-- Include the JavaScript file -->
+<script src="/scripts/spending-habits.js"></script>
+
+<%- include("partials/footer"); -%>

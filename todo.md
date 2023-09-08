@@ -2,33 +2,33 @@
 
 ## Scripts
 
-
 ## Incomplete things
 
-### planning EJS page
-
-- [ ] add source code for the text in the paragraph in expense projection 
-
-### Navbar
-- [ ] add an x icon to expand the navbar options when in mobile view
-- [ ] add icons to each option in the Navbar
-- [ ] add search bar
-
 ### Footer
-- [ ] add logo in the Copyright section
-- [ ] add newsletter sub box
+
 - [ ] make footer links go to real places
 
-
 ### Accessibility
+
 - [ ] add dark mode icons in the top left of the app
 
+### Spening Habits Page
+
+- [ ] Add a good message for spending decrease
+- [ ] Add bad message for spening increase
+- [ ] Mean and standard deviation for past spening
+- [ ] add grey boxes around the divs
+- [ ] Make a positive and negative section
+- [ ] Make past months and current month the same array
+- [ ] December to jan should include inflation in calc and expenses going
+      up is normal
 
 ### Miscellaneous
+
 - [ ] Come up with a name and tagline
 
-
 ### Completed Column
+
 - [x] Make a graph.js file and make the projections.ejs page use it
 - [x] fix weird spacing when in mobile view
 - [x] Fix weird scaling in mobile view

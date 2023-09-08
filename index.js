@@ -41,6 +41,10 @@ app.get("/recommendation", (req, res) => {
   res.render("recommendation");
 });
 
+app.get("/spending-habits", (req, res) => {
+  res.render("spending-habits");
+});
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
