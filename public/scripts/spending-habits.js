@@ -22,7 +22,6 @@ var pastMonthsData = [
     { category: "Transportation", amount: 110, month: 6, year: 2023 },
     { category: "Shopping", amount: 210, month: 6, year: 2023 },
   ],
-  // Add more past months' data as needed
 ];
 
 function getMonthEntries(month, year) {
@@ -180,5 +179,70 @@ function populateRecommendations() {
   });
 }
 
-// populateRecommendations();
+// Function to generate personalized recommendations based on spending habits
+function generateRecommendations(spendingHabitsData) {
+  var recommendationsBox = document.getElementById("recommendationsBox");
+  var recommendationsList = document.getElementById("recommendationsList");
+
+  // Calculate changes in spending for different categories compared to the previous month
+  var categoriesWithIncreasedSpending = [];
+  var categoriesWithDecreasedSpending = [];
+
+  var currentDate = new Date();
+  var currentMonth = currentDate.getMonth(); // 0-indexed month
+  var currentYear = currentDate.getFullYear();
+
+  var spendingHabitsData = getMonthEntries(currentMonth, currentYear);
+
+  spendingHabitsData.forEach(function(item) {
+    var category = item.category;
+    var currentAmount = item.amount;
+    var previousAmount = getPrevMonthCatSPending(
+      category,
+      item.month,
+      item.year,
+    );
+
+    if (previousAmount !== null) {
+      var change = currentAmount - previousAmount;
+      if (change > 0) {
+        categoriesWithIncreasedSpending.push(category);
+      } else if (change < 0) {
+        categoriesWithDecreasedSpending.push(category);
+      }
+    }
+  });
+
+  // Generate personalized recommendations based on spending changes
+  var recommendations = [];
+
+  if (categoriesWithIncreasedSpending.length > 0) {
+    recommendations.push(
+      `You've increased spending in the following categories: ${categoriesWithIncreasedSpending.join(
+        ", ",
+      )}. Consider reviewing your expenses in these areas.`,
+    );
+  }
+
+  if (categoriesWithDecreasedSpending.length > 0) {
+    recommendations.push(
+      `You've decreased spending in the following categories: ${categoriesWithDecreasedSpending.join(
+        ", ",
+      )}. You're making positive changes! Keep it up.`,
+    );
+  }
+
+  if (recommendations.length === 0) {
+    recommendations.push(
+      "Your spending habits appear consistent with the previous month.",
+    );
+  }
+
+  // Populate the recommendations list
+  recommendationsList.innerHTML = recommendations
+    .map((rec) => `<li>${rec}</li>`)
+    .join("");
+}
+
 populateSpendingHabits();
+generateRecommendations();
