@@ -14,7 +14,7 @@
         <th>Category</th>
         <th>Amount Total</th>
         <th>Amount/Day</th>
-        <th>Compared to last month</th> <!-- New column -->
+        <th>Compared to prev month</th> <!-- New column -->
       </tr>
     </thead>
     <tbody id="spendingHabitsTableBody">
@@ -32,8 +32,13 @@
 <!-- Subsection 2: Recommendations Based on Spending Habits -->
 <h2>Recommendations Based on Spending Habits</h2>
 <div class="box" id="recommendationsBox">
-  <!-- Data will be populated here using JavaScript -->
-  <ul id="recommendationsList"></ul>
+  <!-- Positive recommendations -->
+  <h3>Positive Habits</h3>
+  <ul id="positiveRecommendationsList"></ul>
+  
+  <!-- Negative recommendations -->
+  <h3>Negative Habits</h3>
+  <ul id="negativeRecommendationsList"></ul>
 </div>
 
 <!-- Include the JavaScript file -->

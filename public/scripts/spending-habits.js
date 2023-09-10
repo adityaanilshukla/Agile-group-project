@@ -181,8 +181,12 @@ function populateRecommendations() {
 
 // Function to generate personalized recommendations based on spending habits
 function generateRecommendations(spendingHabitsData) {
-  var recommendationsBox = document.getElementById("recommendationsBox");
-  var recommendationsList = document.getElementById("recommendationsList");
+  var positiveRecommendationsList = document.getElementById(
+    "positiveRecommendationsList",
+  );
+  var negativeRecommendationsList = document.getElementById(
+    "negativeRecommendationsList",
+  );
 
   // Calculate changes in spending for different categories compared to the previous month
   var categoriesWithIncreasedSpending = [];
@@ -206,40 +210,53 @@ function generateRecommendations(spendingHabitsData) {
     if (previousAmount !== null) {
       var change = currentAmount - previousAmount;
       if (change > 0) {
-        categoriesWithIncreasedSpending.push(category);
+        categoriesWithIncreasedSpending.push(category); // Change this line
       } else if (change < 0) {
-        categoriesWithDecreasedSpending.push(category);
+        categoriesWithDecreasedSpending.push(category); // Change this line
       }
     }
   });
 
   // Generate personalized recommendations based on spending changes
-  var recommendations = [];
-
-  if (categoriesWithIncreasedSpending.length > 0) {
-    recommendations.push(
-      `You've increased spending in the following categories: ${categoriesWithIncreasedSpending.join(
-        ", ",
-      )}. Consider reviewing your expenses in these areas.`,
-    );
-  }
+  var positiveRecommendations = [];
+  var negativeRecommendations = [];
 
   if (categoriesWithDecreasedSpending.length > 0) {
-    recommendations.push(
+    // Change this condition
+    positiveRecommendations.push(
       `You've decreased spending in the following categories: ${categoriesWithDecreasedSpending.join(
         ", ",
       )}. You're making positive changes! Keep it up.`,
     );
   }
 
-  if (recommendations.length === 0) {
-    recommendations.push(
+  if (categoriesWithIncreasedSpending.length > 0) {
+    // Change this condition
+    negativeRecommendations.push(
+      `You've increased spending in the following categories: ${categoriesWithIncreasedSpending.join(
+        ", ",
+      )}. Consider reviewing your expenses in these areas.`,
+    );
+  }
+
+  if (positiveRecommendations.length === 0) {
+    positiveRecommendations.push(
       "Your spending habits appear consistent with the previous month.",
     );
   }
 
-  // Populate the recommendations list
-  recommendationsList.innerHTML = recommendations
+  if (negativeRecommendations.length === 0) {
+    negativeRecommendations.push(
+      "Your spending habits appear consistent with the previous month.",
+    );
+  }
+
+  // Populate the positive and negative recommendations lists
+  positiveRecommendationsList.innerHTML = positiveRecommendations
+    .map((rec) => `<li>${rec}</li>`)
+    .join("");
+
+  negativeRecommendationsList.innerHTML = negativeRecommendations
     .map((rec) => `<li>${rec}</li>`)
     .join("");
 }
