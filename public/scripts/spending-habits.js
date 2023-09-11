@@ -31,12 +31,12 @@ function getMonthEntries(month, year) {
 
     // Check if the data entry matches the month and year
     if (
-      monthData.some(function(entry) {
+      monthData.some(function (entry) {
         return entry.month === month && entry.year === year;
       })
     ) {
       // Filter the entries that match the criteria (month and year)
-      var monthEntries = monthData.filter(function(entry) {
+      var monthEntries = monthData.filter(function (entry) {
         return entry.month === month && entry.year === year;
       });
 
@@ -60,7 +60,7 @@ function populateSpendingHabits() {
 
   var spendingHabitsData = getMonthEntries(currentMonth, currentYear);
 
-  spendingHabitsData.forEach(function(item) {
+  spendingHabitsData.forEach(function (item) {
     var category = item.category;
     var amount = item.amount;
     var month = item.month;
@@ -128,7 +128,7 @@ function getPrevMonthCatSPending(category, currentMonth, currentYear) {
 
     // Check if the data entry matches the category, month, and year
     if (
-      monthData.some(function(entry) {
+      monthData.some(function (entry) {
         return (
           entry.category === category &&
           entry.month === previousMonth &&
@@ -137,7 +137,7 @@ function getPrevMonthCatSPending(category, currentMonth, currentYear) {
       })
     ) {
       // Find the entry that matches the criteria and return its amount
-      var previousMonthEntry = monthData.find(function(entry) {
+      var previousMonthEntry = monthData.find(function (entry) {
         return (
           entry.category === category &&
           entry.month === previousMonth &&
@@ -168,17 +168,6 @@ function calculateOverUnderPrev(currentAmount, previousAmount) {
   }
 }
 
-// Function to populate the recommendations box
-function populateRecommendations() {
-  var recommendationsBox = document.getElementById("recommendationsBox");
-  recommendationsData.forEach(function(item) {
-    var recommendation = item.recommendation;
-    var listItem = document.createElement("p");
-    listItem.textContent = recommendation;
-    recommendationsBox.appendChild(listItem);
-  });
-}
-
 // Function to generate personalized recommendations based on spending habits
 function generateRecommendations(spendingHabitsData) {
   var positiveRecommendationsList = document.getElementById(
@@ -188,17 +177,17 @@ function generateRecommendations(spendingHabitsData) {
     "negativeRecommendationsList",
   );
 
-  // Calculate changes in spending for different categories compared to the previous month
-  var categoriesWithIncreasedSpending = [];
-  var categoriesWithDecreasedSpending = [];
-
   var currentDate = new Date();
   var currentMonth = currentDate.getMonth(); // 0-indexed month
   var currentYear = currentDate.getFullYear();
 
   var spendingHabitsData = getMonthEntries(currentMonth, currentYear);
 
-  spendingHabitsData.forEach(function(item) {
+  // Calculate changes in spending for different categories compared to the previous month
+  var categoriesWithIncreasedSpending = [];
+  var categoriesWithDecreasedSpending = [];
+
+  spendingHabitsData.forEach(function (item) {
     var category = item.category;
     var currentAmount = item.amount;
     var previousAmount = getPrevMonthCatSPending(
@@ -206,13 +195,28 @@ function generateRecommendations(spendingHabitsData) {
       item.month,
       item.year,
     );
+    var monthsOfData = pastMonthsData.length;
+
+    // Calculate the mean and standard deviation for the category
+    var categoryMean = calculateCategoryMean(category, monthsOfData);
+    var categoryStdev = calculateStdev(category, pastMonthsData, categoryMean);
 
     if (previousAmount !== null) {
       var change = currentAmount - previousAmount;
       if (change > 0) {
-        categoriesWithIncreasedSpending.push(category); // Change this line
+        categoriesWithIncreasedSpending.push({
+          category,
+          change,
+          categoryMean,
+          categoryStdev,
+        });
       } else if (change < 0) {
-        categoriesWithDecreasedSpending.push(category); // Change this line
+        categoriesWithDecreasedSpending.push({
+          category,
+          change,
+          categoryMean,
+          categoryStdev,
+        });
       }
     }
   });
@@ -221,23 +225,33 @@ function generateRecommendations(spendingHabitsData) {
   var positiveRecommendations = [];
   var negativeRecommendations = [];
 
-  if (categoriesWithDecreasedSpending.length > 0) {
-    // Change this condition
+  categoriesWithDecreasedSpending.forEach(function (categoryInfo) {
     positiveRecommendations.push(
-      `You've decreased spending in the following categories: ${categoriesWithDecreasedSpending.join(
-        ", ",
-      )}. You're making positive changes! Keep it up.`,
+      `You've decreased spending in ${
+        categoryInfo.category
+      }, saving $${Math.abs(categoryInfo.change).toFixed(
+        2,
+      )} compared to the previous month. The category's mean spending is $${categoryInfo.categoryMean.toFixed(
+        2,
+      )}, with a standard deviation of $${categoryInfo.categoryStdev.toFixed(
+        2,
+      )}.`,
     );
-  }
+  });
 
-  if (categoriesWithIncreasedSpending.length > 0) {
-    // Change this condition
+  categoriesWithIncreasedSpending.forEach(function (categoryInfo) {
     negativeRecommendations.push(
-      `You've increased spending in the following categories: ${categoriesWithIncreasedSpending.join(
-        ", ",
-      )}. Consider reviewing your expenses in these areas.`,
+      `You've increased spending in ${
+        categoryInfo.category
+      }, spending an extra $${Math.abs(categoryInfo.change).toFixed(
+        2,
+      )} compared to the previous month. The category's mean spending is $${categoryInfo.categoryMean.toFixed(
+        2,
+      )}, with a standard deviation of $${categoryInfo.categoryStdev.toFixed(
+        2,
+      )}. Consider reviewing your expenses in this area.`,
     );
-  }
+  });
 
   if (positiveRecommendations.length === 0) {
     positiveRecommendations.push(
@@ -259,6 +273,73 @@ function generateRecommendations(spendingHabitsData) {
   negativeRecommendationsList.innerHTML = negativeRecommendations
     .map((rec) => `<li>${rec}</li>`)
     .join("");
+}
+
+function calculateCategoryMean(category, numberOfMonths) {
+  // Filter the data for the specified category
+  var categoryData = pastMonthsData.map(function (monthData) {
+    return monthData.filter(function (entry) {
+      return entry.category === category;
+    });
+  });
+
+  // Filter out empty arrays (no data for the category in some months)
+  categoryData = categoryData.filter(function (monthData) {
+    return monthData.length > 0;
+  });
+
+  // Calculate the mean amount for the category over the past number of months
+  var totalAmount = 0;
+  var totalMonths = categoryData.length;
+
+  categoryData.forEach(function (monthData) {
+    monthData.forEach(function (entry) {
+      totalAmount += entry.amount;
+    });
+  });
+
+  if (totalMonths === 0) {
+    return 0; // No data available for the category
+  }
+
+  var meanAmount = parseFloat((totalAmount / totalMonths).toFixed(2));
+
+  return meanAmount;
+}
+
+function calculateStdev(category, numberOfMonths, meanAmount) {
+  // Calculate the mean amount for the category
+
+  // Filter the data for the specified category
+  var categoryData = pastMonthsData.map(function (monthData) {
+    return monthData.filter(function (entry) {
+      return entry.category === category;
+    });
+  });
+
+  // Filter out empty arrays (no data for the category in some months)
+  categoryData = categoryData.filter(function (monthData) {
+    return monthData.length > 0;
+  });
+
+  // Calculate the sum of squared differences from the mean
+  var sumOfSquaredDifferences = 0;
+  var totalMonths = categoryData.length;
+
+  categoryData.forEach(function (monthData) {
+    monthData.forEach(function (entry) {
+      sumOfSquaredDifferences += Math.pow(entry.amount - meanAmount, 2);
+    });
+  });
+
+  if (totalMonths === 0) {
+    return 0; // No data available for the category
+  }
+
+  // Calculate the standard deviation
+  var stdev = Math.sqrt(sumOfSquaredDifferences / totalMonths).toFixed(2);
+
+  return parseFloat(stdev);
 }
 
 populateSpendingHabits();

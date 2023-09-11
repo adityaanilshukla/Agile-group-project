@@ -14,12 +14,7 @@
 
 ### Spening Habits Page
 
-- [ ] Add a good message for spending decrease
-- [ ] Add bad message for spening increase
-- [ ] Mean and standard deviation for past spening
 - [ ] add grey boxes around the divs
-- [ ] Make a positive and negative section
-- [ ] Make past months and current month the same array
 - [ ] December to jan should include inflation in calc and expenses going
       up is normal
 
@@ -32,3 +27,7 @@
 - [x] Make a graph.js file and make the projections.ejs page use it
 - [x] fix weird spacing when in mobile view
 - [x] Fix weird scaling in mobile view
+- [x] Add a good message for spending decrease
+- [x] Add bad message for spening increase
+- [x] Mean and standard deviation for past spening
+- [x] Make past months and current month the same array
