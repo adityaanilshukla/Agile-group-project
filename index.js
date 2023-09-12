@@ -45,6 +45,10 @@ app.get("/spending-habits", (req, res) => {
   res.render("spending-habits");
 });
 
+app.get("/projected-savings", (req, res) => {
+  res.render("projected-savings");
+});
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
