@@ -15,13 +15,14 @@
         <th><%= months[new Date().getMonth()] %> Expenses</th>
         <th><%= months[new Date().getMonth()-1] %> Expenses</th>
         <th>Expense Delta</th>
-        <th>Expense Rate</th> <!-- New column -->
+        <th>Expense per day</th> <!-- New column -->
       </tr>
     </thead>
     <tbody id="spendingHabitsTableBody">
       <!-- Table rows will be populated here using JavaScript -->
     </tbody>
   </table>
+  <p>Expense delta is the projected change in expenditure compared to the previous month</P>
 </div>
 
 <!-- Gap between table columns -->
@@ -34,13 +35,19 @@
 <h2>Recommendations Based on Spending Habits</h2>
 <div class="box" id="recommendationsBox">
   <!-- Positive recommendations -->
-  <h3>Positive Habits</h3>
+  <h3>Positive Trend</h3>
   <ul id="positiveRecommendationsList"></ul>
   
   <!-- Negative recommendations -->
-  <h3>Negative Habits</h3>
+  <h3>Negative Trend</h3>
   <ul id="negativeRecommendationsList"></ul>
 </div>
+
+<div class="vertical-spacing"></div>
+<div class="vertical-spacing"></div>
+<div class="vertical-spacing"></div>
+<div class="vertical-spacing"></div>
+<div class="vertical-spacing"></div>
 
 <!-- Include the JavaScript file -->
 <script src="/scripts/spending-habits.js"></script>
