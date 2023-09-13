@@ -23,7 +23,7 @@
 
 </script>
 
-<h2>Breakdown of projected expenses</h2>
+<h2 color="red" >Breakdown of projected expenses</h2>
 
 <% expenses = [{name: "Amount spent this year", amount: 15000.14}]%>
 <% sectionTitle = "Annual expense Projection"; %>
@@ -51,7 +51,7 @@
                 $<%= (item.amount * Math.pow(1 + inflation, i)).toFixed(2) %>
                 <% if (i > 0) { %> <!-- Adding the '+' for subsequent years -->
                   <br>
-                  <span class="plus-amount">+ $<%= ((item.amount * Math.pow(1 + inflation, i)) - (item.amount * Math.pow(1 + inflation, i - 1))).toFixed(2) %></span>
+                  <span class="plus-amount">+$<%= ((item.amount * Math.pow(1 + inflation, i)) - (item.amount * Math.pow(1 + inflation, i - 1))).toFixed(2) %></span>
                 <% } %>
               </td>
             <% } %>
@@ -59,8 +59,12 @@
         <% }); %>
       </tbody>
     </table>
+<p> <span style="color: red"> Red font represents annual increase in expenses</p>
   </div>
+
 </div>
+
+
 
 
 <% expenses = [{name: "Mcdonalds", amount: 107.14},{name: "KFC",amount: 57.34},{ name: "Food Court", amount: 73.43},];%>

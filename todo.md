@@ -12,6 +12,11 @@
 
 - [ ] add dark mode icons in the top left of the app
 
+### Expense Projection
+
+- [ ] Remove exepnse item
+- [ ] Replace amount spent this year with expenditure include
+
 ### Spening Habits Page
 
 - [ ] add grey boxes around the divs

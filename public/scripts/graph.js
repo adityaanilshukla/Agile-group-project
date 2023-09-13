@@ -154,7 +154,7 @@ function plotIncomeExpensesGraph(
               .slice(0, index + 1)
               .reduce((acc, value) => acc + value, 0),
           ),
-          label: "Cumulative Income",
+          label: "Cumulative Savings",
           borderColor: "black",
           backgroundColor: "black", // Set background color to black
           fill: false,

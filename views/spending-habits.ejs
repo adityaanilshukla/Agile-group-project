@@ -1,20 +1,21 @@
 <%- include("partials/header"); -%>
 
-<h1>Recommendations Based on Spending Habits</h1>
+<h1>Spending Recommendations</h1>
 
 <% const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]; %>
 
 <!-- Subsection 1: Your Spending Habits -->
-<h2>Your spending habits for <%= months[new Date().getMonth()] %> </h2>
+<h2> <%= months[new Date().getMonth()] %> Spending Habits </h2>
 <div class="box" id="spendingHabitsBox">
   <!-- Data will be populated here using JavaScript -->
   <table class="table">
     <thead>
       <tr>
         <th>Category</th>
-        <th>Amount Total</th>
-        <th>Amount/Day</th>
-        <th>Compared to prev month</th> <!-- New column -->
+        <th><%= months[new Date().getMonth()] %> Expenses</th>
+        <th><%= months[new Date().getMonth()-1] %> Expenses</th>
+        <th>Expense Delta</th>
+        <th>Expense Rate</th> <!-- New column -->
       </tr>
     </thead>
     <tbody id="spendingHabitsTableBody">
