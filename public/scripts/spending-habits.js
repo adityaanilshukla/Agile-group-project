@@ -1,10 +1,10 @@
 // Simulated user's spending habits data from past months (for testing recommendations)
 var pastMonthsData = [
   [
-    { category: "Food", amount: 300, month: 8, year: 2023 },
+    { category: "Food", amount: 10, month: 8, year: 2023 },
     { category: "Utilities", amount: 180, month: 8, year: 2023 },
     { category: "Entertainment", amount: 50, month: 8, year: 2023 },
-    { category: "Transportation", amount: 100, month: 8, year: 2023 },
+    { category: "Transportation", amount: 47, month: 8, year: 2023 },
     { category: "Shopping", amount: 200, month: 8, year: 2023 },
     // Add more data as needed
   ],
@@ -31,12 +31,12 @@ function getMonthEntries(month, year) {
 
     // Check if the data entry matches the month and year
     if (
-      monthData.some(function(entry) {
+      monthData.some(function (entry) {
         return entry.month === month && entry.year === year;
       })
     ) {
       // Filter the entries that match the criteria (month and year)
-      var monthEntries = monthData.filter(function(entry) {
+      var monthEntries = monthData.filter(function (entry) {
         return entry.month === month && entry.year === year;
       });
 
@@ -60,7 +60,7 @@ function populateSpendingHabits() {
 
   var spendingHabitsData = getMonthEntries(currentMonth, currentYear);
 
-  spendingHabitsData.forEach(function(item) {
+  spendingHabitsData.forEach(function (item) {
     var category = item.category;
     var amount = item.amount;
     var month = item.month;
@@ -76,20 +76,20 @@ function populateSpendingHabits() {
     amountCell.textContent = `$${amount}`;
 
     // Calculate and create a cell for Amount/Day
-    var currentDate = new Date();
-    var daysInMonth = new Date(year, month, 0).getDate();
     var daysPassed = currentDate.getDate();
     var amountPerDay = (amount / daysPassed).toFixed(2);
 
     var amountPerDayCell = document.createElement("td");
     amountPerDayCell.textContent = `$${amountPerDay}`;
 
+    var projectedExpenditure = calculateProjectedExpenditure(amount);
+    var projectedExpenditureCell = document.createElement("td");
+    projectedExpenditureCell.textContent = `$${projectedExpenditure}`;
+
     // Calculate and create a cell for Over/Under Prev
     var previousMonthAmount = getPrevMonthCatSPending(category, month, year);
     var prevMonthAmountCell = document.createElement("td");
     prevMonthAmountCell.textContent = `$${previousMonthAmount}`;
-
-    var projectedExpenditure = calculateProjectedExpenditure(amount);
 
     var expenseDetla = calculateExpenseDelta(
       projectedExpenditure,
@@ -102,8 +102,10 @@ function populateSpendingHabits() {
     // Append cells to the row
     listItem.appendChild(categoryCell);
     listItem.appendChild(amountCell);
-    listItem.appendChild(prevMonthAmountCell);
 
+    listItem.appendChild(projectedExpenditureCell);
+
+    listItem.appendChild(prevMonthAmountCell);
     listItem.appendChild(expenseDetlaCell);
     listItem.appendChild(amountPerDayCell);
 
@@ -120,7 +122,8 @@ function populateSpendingHabits() {
   ).getDate();
 
   var daysInfo = document.getElementById("daysInfo");
-  daysInfo.textContent = `Days passed: ${daysPassed} / Total days: ${daysInMonth}`;
+  // daysInfo.textContent = `Days passed: ${daysPassed} / Total days: ${daysInMonth}`;
+  daysInfo.textContent = `${daysPassed}/${daysInMonth} Days`;
 }
 
 function getPrevMonthCatSPending(category, currentMonth, currentYear) {
@@ -138,7 +141,7 @@ function getPrevMonthCatSPending(category, currentMonth, currentYear) {
 
     // Check if the data entry matches the category, month, and year
     if (
-      monthData.some(function(entry) {
+      monthData.some(function (entry) {
         return (
           entry.category === category &&
           entry.month === previousMonth &&
@@ -147,7 +150,7 @@ function getPrevMonthCatSPending(category, currentMonth, currentYear) {
       })
     ) {
       // Find the entry that matches the criteria and return its amount
-      var previousMonthEntry = monthData.find(function(entry) {
+      var previousMonthEntry = monthData.find(function (entry) {
         return (
           entry.category === category &&
           entry.month === previousMonth &&
@@ -170,22 +173,6 @@ function calculateProjectedExpenditure(currentAmount) {
   let daysPassed = d.getDate();
   return ((currentAmount / daysPassed) * daysInMonth).toFixed(2);
 }
-
-// // Function to calculate expense delta
-// function calculateExpenseDelta(currentAmount, previousAmount) {
-//   if (previousAmount === null) {
-//     return "N/A"; // No data for the previous month
-//   }
-//
-//   var difference = currentAmount - previousAmount;
-//   if (difference > 0) {
-//     return `+$${difference.toFixed(2)}`;
-//   } else if (difference < 0) {
-//     return `-$${Math.abs(difference).toFixed(2)}`;
-//   } else {
-//     return "$0";
-//   }
-// }
 
 // Function to calculate expense delta
 function calculateExpenseDelta(projectedExpenditure, previousMonthExpenditure) {
@@ -222,8 +209,9 @@ function generateRecommendations(spendingHabitsData) {
   // Calculate changes in spending for different categories compared to the previous month
   let categoriesWithIncreasedSpending = [];
   let categoriesWithDecreasedSpending = [];
+  let categoriesWithNormalSpending = [];
 
-  spendingHabitsData.forEach(function(item) {
+  spendingHabitsData.forEach(function (item) {
     var category = item.category;
     var currentAmount = item.amount;
     var previousAmount = getPrevMonthCatSPending(
@@ -253,15 +241,25 @@ function generateRecommendations(spendingHabitsData) {
         projectedExpenditure >= lowerBound &&
         projectedExpenditure <= upperBound
       ) {
-        categoriesWithDecreasedSpending.push({
+        categoriesWithNormalSpending.push({
           category,
           change,
           categoryMean,
           categoryStdev,
           projectedExpenditure,
+          percentage,
+        });
+      } else if (projectedExpenditure >= upperBound) {
+        categoriesWithIncreasedSpending.push({
+          category,
+          change,
+          categoryMean,
+          categoryStdev,
+          projectedExpenditure,
+          percentage,
         });
       } else {
-        categoriesWithIncreasedSpending.push({
+        categoriesWithDecreasedSpending.push({
           category,
           change,
           categoryMean,
@@ -276,27 +274,30 @@ function generateRecommendations(spendingHabitsData) {
   // Generate personalized recommendations based on spending changes
   var positiveRecommendations = [];
   var negativeRecommendations = [];
-  categoriesWithDecreasedSpending.forEach(function(categoryInfo) {
+  var normalSpendingStatements = [];
+  categoriesWithDecreasedSpending.forEach(function (categoryInfo) {
     positiveRecommendations.push(
-      `You've decreased spending in ${categoryInfo.category
-      }, saving $${Math.abs(categoryInfo.change).toFixed(
-        2,
-      )} compared to the previous month. The category's mean spending is $${categoryInfo.categoryMean.toFixed(
-        2,
-      )}, with a standard deviation of $${categoryInfo.categoryStdev.toFixed(
-        2,
-      )}.`,
+      `${categoryInfo.category} expenses: ${monthsOfData} month-average is $${categoryInfo.categoryMean} and standard deviation is $${categoryInfo.categoryStdev}. Based on the trend so far
+      the projected expense in this category is going to be $${categoryInfo.projectedExpenditure}. Which is a decrease
+      of ${categoryInfo.percentage}% when compared to the ${monthsOfData} month-average. Great job!`,
     );
   });
 
-  categoriesWithIncreasedSpending.forEach(function(categoryInfo) {
+  categoriesWithIncreasedSpending.forEach(function (categoryInfo) {
     negativeRecommendations.push(
       `${categoryInfo.category} expenses: ${monthsOfData} month-average is $${categoryInfo.categoryMean} and standard deviation is $${categoryInfo.categoryStdev}. Based on the trend so far
       the projected expense in this category is going to be $${categoryInfo.projectedExpenditure}. Which is an increase
-      of ${categoryInfo.percentage}% when compared to the ${monthsOfData} month-average. Consider reviewing your expenses in this category`,
+      of ${categoryInfo.percentage}% when compared to the ${monthsOfData} month-average. Aim to regulate the spending in this category`,
     );
   });
 
+  categoriesWithNormalSpending.forEach(function (categoryInfo) {
+    normalSpendingStatements.push(
+      `${categoryInfo.category} expenses: ${monthsOfData} month-average is $${categoryInfo.categoryMean} and standard deviation is $${categoryInfo.categoryStdev}. Based on the trend so far
+      the projected expense in this category is going to be $${categoryInfo.projectedExpenditure}. Which is a change of
+      of ${categoryInfo.percentage}% when compared to the ${monthsOfData} month-average and is within the standard deviation from the average`,
+    );
+  });
   if (positiveRecommendations.length === 0) {
     positiveRecommendations.push(
       "Your spending habits appear consistent with the previous month.",
@@ -309,7 +310,10 @@ function generateRecommendations(spendingHabitsData) {
     );
   }
 
-  // Populate the positive and negative recommendations lists
+  // Populate the positive and negative and normal list`
+  normalSpendingList.innerHTML = normalSpendingStatements
+    .map((rec) => `<li>${rec}</li>`)
+    .join("");
   positiveRecommendationsList.innerHTML = positiveRecommendations
     .map((rec) => `<li>${rec}</li>`)
     .join("");
@@ -321,14 +325,14 @@ function generateRecommendations(spendingHabitsData) {
 
 function calculateCategoryMean(category, numberOfMonths) {
   // Filter the data for the specified category
-  var categoryData = pastMonthsData.map(function(monthData) {
-    return monthData.filter(function(entry) {
+  var categoryData = pastMonthsData.map(function (monthData) {
+    return monthData.filter(function (entry) {
       return entry.category === category;
     });
   });
 
   // Filter out empty arrays (no data for the category in some months)
-  categoryData = categoryData.filter(function(monthData) {
+  categoryData = categoryData.filter(function (monthData) {
     return monthData.length > 0;
   });
 
@@ -336,8 +340,8 @@ function calculateCategoryMean(category, numberOfMonths) {
   var totalAmount = 0;
   var totalMonths = categoryData.length;
 
-  categoryData.forEach(function(monthData) {
-    monthData.forEach(function(entry) {
+  categoryData.forEach(function (monthData) {
+    monthData.forEach(function (entry) {
       totalAmount += entry.amount;
     });
   });
@@ -355,14 +359,14 @@ function calculateStdev(category, numberOfMonths, meanAmount) {
   // Calculate the mean amount for the category
 
   // Filter the data for the specified category
-  var categoryData = pastMonthsData.map(function(monthData) {
-    return monthData.filter(function(entry) {
+  var categoryData = pastMonthsData.map(function (monthData) {
+    return monthData.filter(function (entry) {
       return entry.category === category;
     });
   });
 
   // Filter out empty arrays (no data for the category in some months)
-  categoryData = categoryData.filter(function(monthData) {
+  categoryData = categoryData.filter(function (monthData) {
     return monthData.length > 0;
   });
 
@@ -370,8 +374,8 @@ function calculateStdev(category, numberOfMonths, meanAmount) {
   var sumOfSquaredDifferences = 0;
   var totalMonths = categoryData.length;
 
-  categoryData.forEach(function(monthData) {
-    monthData.forEach(function(entry) {
+  categoryData.forEach(function (monthData) {
+    monthData.forEach(function (entry) {
       sumOfSquaredDifferences += Math.pow(entry.amount - meanAmount, 2);
     });
   });

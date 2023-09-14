@@ -29,16 +29,41 @@ var projectedSavingsData = {
   currentSavings: 750, // Your current savings for the month
 };
 
-// Function to calculate the savings progress as a percentage
-function calculateSavingsProgress(target, current) {
-  if (target === 0) {
-    return 0; // Avoid division by zero
+let currentDate = new Date();
+
+let totalSpending = calculateTotalSpending(
+  currentDate.getMonth(),
+  currentDate.getFullYear(),
+);
+
+let spendRate = dailySpending();
+//
+function calculateTotalSpending(month, year) {
+  // Initialize the total spending to 0
+  var totalSpending = 0;
+
+  // Iterate through the pastMonthsData array
+  for (var i = 0; i < pastMonthsData.length; i++) {
+    var monthData = pastMonthsData[i];
+
+    // Check if the month and year match the input
+    if (
+      monthData.some(function (entry) {
+        return entry.month === month && entry.year === year;
+      })
+    ) {
+      // Calculate the total spending for this month and add it to the total
+      var monthlySpending = monthData.reduce(function (acc, entry) {
+        return acc + entry.amount;
+      }, 0);
+
+      totalSpending += monthlySpending;
+    }
   }
-  return ((current / target) * 100).toFixed(2);
+  return totalSpending;
 }
 
-// Function to predict savings based on daily spending
-function predictSavings(target, spendingData) {
+function dailySpending() {
   var currentDate = new Date();
   var daysInMonth = new Date(
     currentDate.getFullYear(),
@@ -46,17 +71,27 @@ function predictSavings(target, spendingData) {
     0,
   ).getDate();
 
-  var totalSpending = spendingData.reduce(function(acc, item) {
-    return acc + item.amount;
-  }, 0);
+  var totalcurrentlySpent = calculateTotalSpending(
+    currentDate.getMonth(),
+    currentDate.getFullYear(),
+  );
+  return (totalcurrentlySpent / daysInMonth).toFixed(2);
+}
 
-  var dailySpending = totalSpending / daysInMonth;
+// Function to calculate the savings progress as a percentage
+function calculateSavingsProgress(target, current) {
+  if (target === 0) {
+    return 0; // Avoid division by zero
+  }
+
+  let percentage = (current / target) * 100;
+  return percentage;
+}
+
+// Function to predict savings based on daily spending
+function predictSavings(target, spendingData) {
   var projectedSavings = target - totalSpending;
-
-  return {
-    dailySpending: dailySpending.toFixed(2),
-    projectedSavings: projectedSavings.toFixed(2),
-  };
+  return projectedSavings.toFixed(2);
 }
 
 // Calculate the savings progress
@@ -83,14 +118,12 @@ document.getElementById("currentSavingsBox").innerHTML =
   "</p>";
 
 document.getElementById("savingsProgressBox").innerHTML =
-  "<h3>Your Savings Progress</h3><p>" +
-  projectedSavingsData.savingsProgress +
-  "%</p>";
+  "<h3>Your Savings Progress</h3><p>" + savingsProgress + "%</p>";
 
 // Display the savings prediction
 document.getElementById("savingsProgressBox").innerHTML +=
-  "<h3>Your Projected Savings</h3><p>If you continue spending as you are, you will save approximately $" +
-  savingsPrediction.projectedSavings +
+  "<h3>Your Projected Savings</h3><p>At your current, you will save approximately $" +
+  savingsPrediction +
   " this month, with a daily spending of $" +
-  savingsPrediction.dailySpending +
+  spendRate +
   ".</p>";

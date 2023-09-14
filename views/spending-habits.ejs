@@ -1,43 +1,46 @@
 <%- include("partials/header"); -%>
 
-<h1>Spending Recommendations</h1>
 
-<% const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]; %>
 
+<% const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]; %>
+
+<h2> Recommendations based on <%= months[new Date().getMonth()] %> Spending Habits </h2>
 <!-- Subsection 1: Your Spending Habits -->
-<h2> <%= months[new Date().getMonth()] %> Spending Habits </h2>
+
 <div class="box" id="spendingHabitsBox">
   <!-- Data will be populated here using JavaScript -->
   <table class="table">
     <thead>
       <tr>
         <th>Category</th>
-        <th><%= months[new Date().getMonth()] %> Expenses</th>
-        <th><%= months[new Date().getMonth()-1] %> Expenses</th>
+        <th><%= months[new Date().getMonth()] %> Exp <div id="daysInfo"></div></th>
+        <th> Projected EOM <%= months[new Date().getMonth()] %> Exp</th>
+        <th>3 Months-Avg Exp</th>
         <th>Expense Delta</th>
-        <th>Expense per day</th> <!-- New column -->
+        <th><%= months[new Date().getMonth()] %> expense per day</th> <!-- New column -->
       </tr>
     </thead>
     <tbody id="spendingHabitsTableBody">
       <!-- Table rows will be populated here using JavaScript -->
     </tbody>
   </table>
-  <p>Expense delta is the projected change in expenditure compared to the previous month</P>
+  <p>Expense delta is the projected change in expenditure compared to the previous 3 month's average</P>
 </div>
 
 <!-- Gap between table columns -->
 <div style="height: 20px;"></div>
 
 <!-- Days passed/total days of the month -->
-<div id="daysInfo"></div>
+
 
 <!-- Subsection 2: Recommendations Based on Spending Habits -->
 <h2>Recommendations Based on Spending Habits</h2>
 <div class="box" id="recommendationsBox">
+  <h3>Normal Trend</h3>
+  <ul id="normalSpendingList"></ul>
   <!-- Positive recommendations -->
   <h3>Positive Trend</h3>
   <ul id="positiveRecommendationsList"></ul>
-  
   <!-- Negative recommendations -->
   <h3>Negative Trend</h3>
   <ul id="negativeRecommendationsList"></ul>
