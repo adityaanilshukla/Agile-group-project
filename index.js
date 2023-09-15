@@ -49,6 +49,29 @@ app.get("/projected-savings", (req, res) => {
   res.render("projected-savings");
 });
 
+app.get("/login", (req, res) => {
+  res.render("login");
+});
+
+// app.post('/login', (req, res) => {
+//   const { username, password } = req.body;
+//   // Check the user's credentials in the SQLite database
+//   db.get(
+//     'SELECT * FROM users WHERE username = ? AND password = ?',
+//     [username, password],
+//     (err, row) => {
+//       if (err || !row) {
+//         // Authentication failed
+//         res.send('Login failed. Please try again.');
+//       } else {
+//         // Authentication succeeded
+//         res.send('Login successful.');
+//       }
+//     }
+//   );
+// });
+//
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });

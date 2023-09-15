@@ -1,0 +1,20 @@
+<%- include("partials/header"); -%>
+
+<div class="container mt-5">
+    <a href="/" class="exit button">Exit</a>
+    <h1>Login</h1>
+    <form action="/login" method="POST">
+        <div class="form-group">
+            <label for="InputforEmail">Email address</label>
+            <input type="email" name="email" class="form-control" id="InputforEmail" aria-describedby="emailHelp">
+            <small id="emailHelp" class="form-text text-muted">Your email will not be visible to anyone.</small>
+        </div>
+        <div class="form-group">
+            <label for="InputforPassword">Password</label>
+            <input type="password" name="password" class="form-control" id="InputforPassword">
+        </div>
+        <button type="submit" class="submit button">Submit</button>
+    </form>
+</div>
+
+<%- include("partials/footer"); -%>

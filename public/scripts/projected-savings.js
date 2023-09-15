@@ -26,6 +26,9 @@ var pastMonthsData = [
 // Mock data for the "Projected Savings for the Month" page
 var projectedSavingsData = {
   targetSavings: 1000, // Your target savings for the month
+  startIncome: 2500,
+  userInflationRate: 0.05,
+  beginYear: 2023,
   currentSavings: 750, // Your current savings for the month
 };
 
@@ -108,22 +111,12 @@ var savingsPrediction = predictSavings(
 
 // Display the savings progress and prediction on the page (with "$" sign)
 document.getElementById("targetSavingsBox").innerHTML =
-  "<h3>Your Target Savings</h3><p>$" +
-  projectedSavingsData.targetSavings +
-  "</p>";
-
+  "$" + projectedSavingsData.targetSavings;
 document.getElementById("currentSavingsBox").innerHTML =
-  "<h3>Your Current Savings</h3><p>$" +
-  projectedSavingsData.currentSavings +
-  "</p>";
-
+  "$" + projectedSavingsData.currentSavings;
 document.getElementById("savingsProgressBox").innerHTML =
-  "<h3>Your Savings Progress</h3><p>" + savingsProgress + "%</p>";
+  savingsProgress.toFixed(2) + "%";
 
 // Display the savings prediction
-document.getElementById("savingsProgressBox").innerHTML +=
-  "<h3>Your Projected Savings</h3><p>At your current, you will save approximately $" +
-  savingsPrediction +
-  " this month, with a daily spending of $" +
-  spendRate +
-  ".</p>";
+document.getElementById("savingsPredictionBox").innerHTML =
+  "$" + savingsPrediction;

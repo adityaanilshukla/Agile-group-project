@@ -2,23 +2,40 @@
 
 <h2>Projected Savings for the Month</h2>
 
-<!-- Box for Target Savings -->
-<div class="box" id="targetSavingsBox">
+<!-- Table to display savings data -->
+<table class="table">
+  <thead>
+    <tr>
+      <th>Target Savings</th>
+      <th>Current Savings</th>
+      <th>Percentage Achieved</th>
+      <th>Projected Savings</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <!-- Target Savings -->
+      <td id="targetSavingsBox">
+        <!-- Content for Target Savings goes here -->
+      </td>
 
-  <!-- Content for Target Savings goes here -->
-</div>
+      <!-- Current Savings -->
+      <td id="currentSavingsBox">
+        <!-- Content for Current Savings goes here -->
+      </td>
 
-<!-- Box for Current Savings -->
-<div class="box" id="currentSavingsBox">
+      <!-- Percentage Achieved -->
+      <td id="savingsProgressBox">
+        <!-- Content for Savings Progress goes here -->
+      </td>
 
-  <!-- Content for Current Savings goes here -->
-</div>
-
-<!-- Box for Savings Progress -->
-<div class="box" id="savingsProgressBox">
-
-  <!-- Content for Savings Progress goes here -->
-</div>
+      <!-- Projected Savings -->
+      <td id="savingsPredictionBox">
+        <!-- Content for Savings Prediction goes here -->
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 <script src="/scripts/projected-savings.js"></script>
 
