@@ -1,4 +1,3 @@
-
 <%- include("partials/header"); -%>
 
 <!-- <script src="/scripts/savings-plan.js"></script> -->
@@ -10,31 +9,32 @@
 
   <h2>Enter Your Monthly Salary</h2>
 
-  <form >
+  <form action="welcome.php" method="post">
+  <!-- <form> -->
     <div class="form-group">
-      <input type="number" step="any" class="form-control grey-input" name="monthlySalary" id="monthlySalary" placeholder="Monthly Salary" required>
+      <input type="number" step="any" value = null class="form-control grey-input" name="monthlySalary" id="monthlySalary" placeholder="Monthly Salary" required>
     </div>
 
     <h2>Enter Your Average Monthly Expenditure</h2>
 
-    <div class="form-group">
-      <input type="number" step="any"  class="form-control grey-input" id="monthlyExpenditure" name="monthlyExpenditure" placeholder="Monthly Expenditure" required>
+    <div class="form-group1">
+      <input type="number" step="any" value = null class="form-control grey-input" id="monthlyExpenditure" name="monthlyExpenditure" placeholder="Monthly Expenditure" required>
     </div>
 
     <h2>Which Of The Following Do You Spend The Most On?</h2>
 
     <select name="select1" id="select1" class="form-control grey-input">
-      <option value="General Spending">General Spending</option>
-      <option value="Overseas Transaction">Overseas Transaction</option>
-      <option value="Transport">Transport</option>
-      <option value="Online Shopping">Online Shopping</option>
-      <option value="Dinning">Dinning</option>
-      <option value="Food Delivery">Food Delivery</option>
+      <option value="generalSpending">General Spending</option>
+      <option value="overseasTransaction">Overseas Transaction</option>
+      <option value="overseasTransaction">Transport</option>
+      <option value="generalSpending">Online Shopping</option>
+      <option value="dinning">Dinning</option>
+      <option value="dinning">Food Delivery</option>
     </select>
 
-    <p> The value of the option selected is:
+    
       <span class="output"></span>
-  </p>
+ 
     <br>
     <br>
     
@@ -44,7 +44,26 @@
       function getOption() {
             selectElement = document.querySelector('#select1');
             output = selectElement.options[selectElement.selectedIndex].value;
-            document.querySelector('.output').textContent = output;
+            console.log(output);
+            a = document.getElementById('monthlySalary').value;
+            b = document.getElementById('monthlyExpenditure').value;
+  
+            a = Number(a);
+            b = Number(b);
+            console.log(a);
+            console.log(b);
+            // document.querySelector('.output').textContent = output;
+            // console.log(typeof a);
+            // console.log(a==b);
+            // console.log(a==0);
+            if((a!=0 && b!=0)){
+              let link ="/";
+              link=link.concat(output);
+              location.replace(link);
+              event.preventDefault();
+              
+            }
+            // event.preventDefault();
         }
       </script>
   </form>

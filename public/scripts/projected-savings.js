@@ -27,12 +27,27 @@ var pastMonthsData = [
 var projectedSavingsData = {
   targetSavings: 1000, // Your target savings for the month
   startIncome: 2500,
-  userInflationRate: 0.05,
+  userSalaryIncreaseRate: 0.05,
+  userInflationRate: 0.04,
   beginYear: 2023,
   currentSavings: 750, // Your current savings for the month
 };
 
 let currentDate = new Date();
+let currentYear = currentDate.getFullYear();
+let yearsPassed = currentYear - projectedSavingsData.beginYear;
+
+//as users salary is set to increase by a certain amount each year
+let currentIncome = (
+  projectedSavingsData.startIncome *
+  (1 + projectedSavingsData.userSalaryIncreaseRate) ** yearsPassed
+).toFixed(2);
+
+//users target savigns to increase with inflaition and changing salaries
+let currentTargetSavings = (
+  projectedSavingsData.targetSavings *
+  (1 + projectedSavingsData.userInflationRate) ** yearsPassed
+).toFixed(2);
 
 let totalSpending = calculateTotalSpending(
   currentDate.getMonth(),
@@ -51,12 +66,12 @@ function calculateTotalSpending(month, year) {
 
     // Check if the month and year match the input
     if (
-      monthData.some(function (entry) {
+      monthData.some(function(entry) {
         return entry.month === month && entry.year === year;
       })
     ) {
       // Calculate the total spending for this month and add it to the total
-      var monthlySpending = monthData.reduce(function (acc, entry) {
+      var monthlySpending = monthData.reduce(function(acc, entry) {
         return acc + entry.amount;
       }, 0);
 
@@ -111,7 +126,7 @@ var savingsPrediction = predictSavings(
 
 // Display the savings progress and prediction on the page (with "$" sign)
 document.getElementById("targetSavingsBox").innerHTML =
-  "$" + projectedSavingsData.targetSavings;
+  "$" + currentTargetSavings;
 document.getElementById("currentSavingsBox").innerHTML =
   "$" + projectedSavingsData.currentSavings;
 document.getElementById("savingsProgressBox").innerHTML =

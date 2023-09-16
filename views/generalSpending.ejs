@@ -1,0 +1,27 @@
+<%- include("partials/header"); -%>
+
+<p1>
+    <h3>This Seems Like The Best Option For You!</h3>
+    <p>
+        <br>
+        <img src="img/citibank.jpg" width="300" height="200">
+        <br>
+        Citi Cash Back+ Mastercard®
+        <?php echo $_POST["monthlySalary"]; ?>
+    </p>
+    <p>
+        <pre>
+Minimun Spend per Month:      Avaliable CashBack:      CashBack Cap:
+$0                            1.6%                     No Cap
+        </pre>
+    </p>
+</p1>
+
+<br>
+<br>
+
+<div class="col-md-6">
+    <a href="/cardRec" class="btn btn-success btn-block btn-space btn-custom">Click here for a revaluation!</a>
+</div>
+
+<%- include("partials/footer"); -%>

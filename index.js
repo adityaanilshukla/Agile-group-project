@@ -64,6 +64,18 @@ app.get("/cardRec", (req, res) => {
   res.render("cardRec");
 });
 
+app.get("/dinning", (req, res) => {
+  res.render("dinning");
+});
+
+app.get("/generalSpending", (req, res) => {
+  res.render("generalSpending");
+});
+
+app.get("/overseasTransaction", (req, res) => {
+  res.render("overseasTransaction");
+});
+
 //post routes
 //login post route
 app.post("/login", (req, res) => {
