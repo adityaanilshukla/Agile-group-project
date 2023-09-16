@@ -7,6 +7,13 @@ const saltRounds = 10; // The number of salt rounds to use
 const app = express();
 const port = 3000;
 
+// Configure SQLite database
+
+const db = new sqlite3.Database("database.db");
+
+// Parse incoming form data
+app.use(bodyParser.urlencoded({ extended: false }));
+
 //set the app to use ejs for rendering
 app.set("view engine", "ejs");
 
@@ -77,50 +84,79 @@ app.get("/overseasTransaction", (req, res) => {
 });
 
 //post routes
-//login post route
 app.post("/login", (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
+
   // Retrieve the hashed password from the SQLite database
-  db.get("SELECT * FROM users WHERE username = ?", [username], (err, row) => {
-    if (err || !row) {
-      // Authentication failed
-      res.send("Login failed. Please try again.");
-    } else {
-      // Compare the provided password with the stored hashed password
-      bcrypt.compare(password, row.password, (bcryptErr, result) => {
-        if (bcryptErr || !result) {
-          // Authentication failed
-          res.send("Login failed. Please try again.");
-        } else {
-          // Authentication succeeded
-          res.send("Login successful.");
-        }
-      });
-    }
-  });
+
+  db.get(
+    "SELECT * FROM users WHERE email = ?",
+
+    [email],
+
+    (err, row) => {
+      if (err || !row) {
+        // Authentication failed
+
+        res.send("Login failed. Please try again.");
+      } else {
+        // Compare the provided password with the stored hashed password
+
+        bcrypt.compare(password, row.password, (bcryptErr, result) => {
+          if (bcryptErr || !result) {
+            // Authentication failed
+
+            res.send("Login failed. Please try again.");
+          } else {
+            // Authentication succeeded
+
+            res.send("Login successful.");
+          }
+        });
+      }
+    },
+  );
 });
 
-// Register a new user
+// Handle registration form submission
+
 app.post("/register", (req, res) => {
-  const { username, password } = req.body;
-  // Hash the password
-  bcrypt.hash(password, saltRounds, (hashErr, hash) => {
+  const { email, password } = req.body;
+
+  // Hash the password using bcrypt
+
+  bcrypt.hash(password, saltRounds, (hashErr, hashedPassword) => {
     if (hashErr) {
-      res.send("Registration failed. Please try again.");
-    } else {
-      // Store the username and hashed password in the database
-      db.run(
-        "INSERT INTO users (username, password) VALUES (?, ?)",
-        [username, hash],
-        (insertErr) => {
-          if (insertErr) {
-            res.send("Registration failed. Please try again.");
-          } else {
-            res.send("Registration successful.");
-          }
-        },
-      );
+      // Handle the error (e.g., log it or send an error response)
+
+      console.error(hashErr);
+
+      res.status(500).send("Registration failed. Please try again later.");
+
+      return;
     }
+
+    // Insert the user into the database
+
+    db.run(
+      "INSERT INTO users (email, password) VALUES (?, ?)",
+
+      [email, hashedPassword],
+
+      (insertErr) => {
+        if (insertErr) {
+          // Handle the error (e.g., log it or send an error response)
+
+          console.error(insertErr);
+
+          res.status(500).send("Registration failed. Please try again later.");
+        } else {
+          // Registration successful
+
+          res.render("login"); // Redirect to the login page
+        }
+      },
+    );
   });
 });
 

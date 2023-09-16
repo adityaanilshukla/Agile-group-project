@@ -1,20 +1,30 @@
-<div class="container mt-5">
-    <h1>Register Account</h1>
-    <form action="/register" method="POST">
-        <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+<body>
+    <section>
+        <div class="form-box">
+            <div class="form-value">
+                <form action="/register" method="POST">
+                    <h2>Register</h2>
+                    <div class="inputbox">
+                        <ion-icon name="mail-outline"></ion-icon>
+                        <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                        <label for="">Email</label>
+                    </div>
+                    <div class="inputbox">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                        <input type="password" name="password" class="form-control" id="exampleInputPassword1">
+                        <label for="">Password</label>
+                    </div>
+                    <button>Sign Up</button>
+                    <div class="register">
+                        <p>Already have an account? <a href="/">Login</a></p>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
-            <input type="password" name="password" class="form-control" id="exampleInputPassword1">
-        </div>
-        <button type="submit" class="btn btn-primary">Register</button>
-        <div class="LogintoRegister">
-            <p>Have an account? <a href="/">Login</a></p>
-        </div>
-    </form>
-</div>
+    </section>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+
   <link rel="stylesheet" href="/css/login-register.css">
 
