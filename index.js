@@ -1,8 +1,11 @@
 const express = require("express");
+const sqlite3 = require("sqlite3");
 const bodyParser = require("body-parser");
+const ejs = require("ejs");
+const bcrypt = require("bcrypt");
+const saltRounds = 10; // The number of salt rounds to use
 const app = express();
 const port = 3000;
-const sqlite3 = require("sqlite3").verbose();
 
 //set the app to use ejs for rendering
 app.set("view engine", "ejs");
@@ -10,6 +13,14 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 
 app.get("/", (req, res) => {
+  res.render("login");
+});
+
+app.get("/register", (req, res) => {
+  res.render("register");
+});
+
+app.get("/home", (req, res) => {
   res.render("home");
 });
 
@@ -49,32 +60,9 @@ app.get("/projected-savings", (req, res) => {
   res.render("projected-savings");
 });
 
-app.get("/login", (req, res) => {
-  res.render("login");
-});
-
 app.get("/cardRec", (req, res) => {
   res.render("cardRec");
 });
-
-// app.post('/login', (req, res) => {
-//   const { username, password } = req.body;
-//   // Check the user's credentials in the SQLite database
-//   db.get(
-//     'SELECT * FROM users WHERE username = ? AND password = ?',
-//     [username, password],
-//     (err, row) => {
-//       if (err || !row) {
-//         // Authentication failed
-//         res.send('Login failed. Please try again.');
-//       } else {
-//         // Authentication succeeded
-//         res.send('Login successful.');
-//       }
-//     }
-//   );
-// });
-//
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
