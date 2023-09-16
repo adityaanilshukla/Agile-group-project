@@ -53,6 +53,10 @@ app.get("/login", (req, res) => {
   res.render("login");
 });
 
+app.get("/cardRec", (req, res) => {
+  res.render("cardRec");
+});
+
 // app.post('/login', (req, res) => {
 //   const { username, password } = req.body;
 //   // Check the user's credentials in the SQLite database
