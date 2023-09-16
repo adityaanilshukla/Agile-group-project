@@ -1,40 +1,45 @@
 <%- include("partials/header"); -%>
 
-
-        <div class="carousel-slideshow">
-
-            <img src="img/carousel-img1.jpg" width=100% alt="About Expense Tracker">
-            <img src="img/carousel-img2.jpg" style="width:100%">
-            <img src="img/carousel-img3.jpg" style="width:100%">
-            <img src="img/carousel-img4.jpg" style="width:100%">
-            <img src="img/carousel-img5.jpg" style="width:100%">
-
+    <div class="carousel-slideshow">
+        <div class="carousel-slide">
+            <img src="img/carousel-img1.jpg" alt="About Expense Tracker">
         </div>
-        
-        <div class="articles">
-            <h1>Mastering Money: Saving Tips Inside</h1>
-            <br />
+        <div class="carousel-slide">
+            <img src="img/carousel-img2.jpg" alt="Image 2">
+        </div>
+        <div class="carousel-slide">
+            <img src="img/carousel-img3.jpg" alt="Image 3">
+        </div>
+        <a class="prev" onclick="plusSlides(-1)">
+            <img
+                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAACs0lEQVR4nMVXTW8SQRjes1+3VtufoVGPnkh3hhZNtJIY9Q+oiQcTYyuYHkxM1CgpM5QUP04eezBKhRmWNn4dOLQ2gEaNCaGCaTR8tEJJYcdMEUq7sOzOUn2SNyGb3Xke3vedd56RJJNwhCcH5YgPyhRfBRSP8eC/+bOhWf+AtBsYodMHIUVuQHESUsx0g+A4INhlC+F+y8S20N29doqvQ4oLXYm1sQYIviMHPQeEyKHiPQ4o/i5AvC0AQct26jtmihwQ5AQEl6ySt8Q6IOiiIXJ7BI9CgtQekv/tDaQCgs/pkyv4CKDod8/Jt0SUO5bD8Sawvxc1N7BL0ry529QdT5hZ6Pzrp8w5/0iwMbFLu88JXjW6QODzW1ZTVVapbbCJxaDIzihumxOQIrfRj598fc9aEc9lxLJA8dhW+o1MuDbkHDOpRdF+WKo3X3hy0Fja32nIYz9T7JTiF2xGpMKo95AECbL/c/KmCK/MBVzp1nDtsFJeZdlSoWNkSgVGM5+YQ5nS6QPfZQkSfLPTC875x6yq1pgV3F56pZMFNK4rYHQuwCq1qiUB7oUX3QQg3RLcT0SYqqqahdNrOfaluNIxPuZ/sGffYsyuvxUvGWrCBwlFIyKZz7IzcwHrTTg06x8w8vLDpFZEIpdlp6PTwtuQT+D6JCQoISri5XJcUAD+0HoQuYx+uFPEwq+0kABA0I2mADno6TPj++7FKVuvbrB8pcSuxWZEyIvN9DcAKb5lZpGTip+NRDoPGf1A49JOnIh693EDaamrjfx7ilJtDQnHMJ08/N8sWQPcOO6eKUVOyQhg2He2p5kgqAwj+IJkBjJBR7mB7EXNuduWRDD83L+nfjVDedGrGXfbklXYQrifbx1uo7rVmU+4zRtz0NNnmbgduI3ihwg/RRvX880TlXhlzXAxgD9fCpghU0MR6QAAAABJRU5ErkJggg==">
+        </a>
+        <a class="next" onclick="plusSlides(1)">
+            <img
+                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAACoElEQVR4nMVXW2sTQRjdZ29vrbY/Q1EffQrdna2xeCso+uiLCr6I2JqK+FIQwZDMt11bRBB8FUQSkpndSKkURJHUNiql4KUXFFrbWJtSmx2ZxLRJs93L7BYPfBBCsufsfOe7jCT5RDSbaJcNDckUrikUenjwz/y7jrTeJu0EjtPB/YjiPoVCAVFgjkFgXCEQi2SgNTBxJHNvt0rhBqKw5ErcHMsKgX45Fd8nRI7M5FGFwowAcUMoBE+rVDvii1whuFshsBKUvC5WFYIveiJXDTiDCLZCJP/nDWwpBM45k5twSKH4d+jkmyJK26YjOjK0N4yce6iSb9zcNnmHOyIPPGHq7NLoU6b6MibEmuucwC+/5OeHH7O5lSXG8Xb+KzuZG/RaGcWGPoEo7hN5e/3TCKvH2MKMdxEUejaP30uHs4nrb54xq0GCLxFjVfNlE+1BTPWgkGOW1Shj/OcsO+Umgpd6LnlAQgSrQZ0tLiIpcwFXnR9uss/L8xWzOcWfcnlLMqrpiJoDDj7QrkiIwK3tftBl6mytvM6C4P6E4XAKuNdRAFdfWl8LJKD/fdZNAHZMwd18muUXptlk8Ydj2KXg1fcpphqaUyleDsWEjyZHbcmjxoC7CTvSelsQ8idTrwXJscU7cLUTEjwhQh5790KMvCIA8vWDKCYiQPs4LEZenQc3NwTIqXiLyN53+uUQKyzOVcjJ7Ac/5MWN468BUbgt6oMu86HP/+BeaSuO5ZJ7+AIZxJCe3p7iL7YLCUcnTRz8bytZDXxx3LmlFHdLXoCy2tlQT4LgEjLgguQHMsGH+QIZRs75ti2JoPO5vqt6NcOLolczvm1LQRHJQCsvHb5GueWZd7jKjTkVbwlMbAe+RvEhwqdo7XpemagkKTc1Fw/4C1+4mCUD4NjSAAAAAElFTkSuQmCC">
+        </a>
+    </div>
+    <div class="news-articles">
+        <h1>Mastering Money: Saving Tips Inside</h1>
+        <article>
             <a href="https://blog.seedly.sg/seedly-money-framework-personal-finance-planning-guide/">
-                <img class="article-img1" src="img/article1.jpg"  alt="Seedly Article">
-                <div class="article-overlay">
-                    <div class="article-img-text">Seedly Money Framework</div>
-                </div>
+                <img class="article-img1" src="img/article1.jpg" alt="Seedly Article">
+                <div class="article-img-text">Seedly Money Framework</div>
             </a>
-            <br />
+        </article>
+        <article>
             <a href="https://content.mycareersfuture.gov.sg/much-enough-5-sporeans-share-much-save-paycheck/">
-                <img class="article-img2" src="img/article2.jpg"  alt="Seedly Article">
-                <div class="article-overlay">
-                    <div class="article-img-text">How 5 S'poreans Manage Their Finances</div>
-                </div>
+                <img class="article-img2" src="img/article2.jpg" alt="Seedly Article">
+                <div class="article-img-text">How 5 S'poreans Manage Their Finances</div>
             </a>
-            <br />
+        </article>
+        <article>
             <a href="https://www.dbs.com.sg/personal/articles/nav/financial-planning/ways-how-to-save-more-money-in-singapore">
-                <img class="article-img3" src="img/article3.jpg"  alt="Seedly Article">
-                <div class="article-overlay">
-                    <div class="article-img-text">5 everyday tips on saving money</div>
-                </div>
+                <img class="article-img3" src="img/article3.jpg" alt="Seedly Article">
+                <div class="article-img-text">5 everyday tips on saving money</div>
             </a>
-        </div>
+        </article>
+    </div>
+    <script src="/scripts/homepage-carousel.js"></script>
 
-
-    <%- include("partials/footer"); -%>
+<%- include("partials/footer"); -%>
