@@ -1,10 +1,14 @@
 <%- include("partials/header"); -%>
 
-
+  <% 
+    var currentDate = new Date();
+    var daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
+    var daysPassed = currentDate.getDate();
+  %>
 
 <% const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]; %>
 
-<h2> Recommendations based on <%= months[new Date().getMonth()] %> Spending Habits </h2>
+<h2> Recommendations based on <%= months[currentDate.getMonth()] %> Spending Habits </h2>
 <!-- Subsection 1: Your Spending Habits -->
 
 <div class="box" id="spendingHabitsBox">
@@ -13,8 +17,8 @@
     <thead>
       <tr>
         <th>Category</th>
-        <th><%= months[new Date().getMonth()] %> Exp <div id="daysInfo"></div></th>
-        <th> Projected EOM <%= months[new Date().getMonth()] %> Exp</th>
+       <th><%= months[currentDate.getMonth()] %> Exp <%= daysPassed %>/<%= daysInMonth %> Days</th>
+        <th> Projected EOM <%= months[currentDate.getMonth()] %> Exp</th>
         <th>3 Months-Avg Exp</th>
         <th>Expense Delta</th>
         <th><%= months[new Date().getMonth()] %> expense per day</th> <!-- New column -->

@@ -1,14 +1,26 @@
 <%- include("partials/header"); -%>
 
-<h2>Projected Savings for the Month</h2>
+  <% 
+    var currentDate = new Date();
+    var daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
+    var daysPassed = currentDate.getDate();
+  %>
+
+
+<% const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]; %>
+
+
+<h2>Projected Savings for  <%= months[currentDate.getMonth()] %> </h2>
 
 <!-- Table to display savings data -->
 <table class="table">
   <thead>
     <tr>
       <th>Target Savings</th>
+      <th>Income</th>
+       <th><%= months[currentDate.getMonth()] %> Exp <%= daysPassed %>/<%= daysInMonth %> Days</th>
+        <th> Projected EOM <%= months[currentDate.getMonth()] %> Exp</th>
       <th>Current Savings</th>
-      <th>Percentage Achieved</th>
       <th>Projected Savings</th>
     </tr>
   </thead>
@@ -18,20 +30,29 @@
       <td id="targetSavingsBox">
         <!-- Content for Target Savings goes here -->
       </td>
+      <!-- Target Savings -->
+      <td id="monthlyIncomeBox">
+        <!-- user's salary increase rate adjusted income goes here -->
+      </td>
+
+      <!-- Current Savings -->
+      <td id="currentExpenditureBox">
+        <!-- Content for Current expenditure goes here -->
+      </td>
+
+      <!-- Current Savings -->
+      <td id="projectedExpenditureBox">
+        <!-- Content for projected expenditure goes here -->
+      </td>
 
       <!-- Current Savings -->
       <td id="currentSavingsBox">
         <!-- Content for Current Savings goes here -->
       </td>
 
-      <!-- Percentage Achieved -->
-      <td id="savingsProgressBox">
-        <!-- Content for Savings Progress goes here -->
-      </td>
-
       <!-- Projected Savings -->
-      <td id="savingsPredictionBox">
-        <!-- Content for Savings Prediction goes here -->
+      <td id="projectedSavingsBox">
+        <!-- Content for Projected Savings goes here -->
       </td>
     </tr>
   </tbody>
