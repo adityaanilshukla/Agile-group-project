@@ -164,6 +164,62 @@ app.post("/register", (req, res) => {
   });
 });
 
+// Create tables if they don't exist
+db.serialize(() => {
+  // Create 'users' table
+  db.run(`
+    CREATE TABLE IF NOT EXISTS users (
+      id INTEGER PRIMARY KEY,
+      email TEXT NOT NULL,
+      password TEXT NOT NULL
+    )
+  `);
+
+  // Create 'expensesByCategory' table
+  db.run(`
+    CREATE TABLE IF NOT EXISTS expensesByCategory (
+      id INTEGER PRIMARY KEY,
+      userId INTEGER,
+      category TEXT,
+      amount REAL,
+      month INTEGER,
+      year INTEGER,
+      FOREIGN KEY (userId) REFERENCES users (id)
+    )
+  `);
+
+  // Create 'expenseByVendor' table
+  db.run(`
+    CREATE TABLE IF NOT EXISTS expenseByVendor (
+      id INTEGER PRIMARY KEY,
+      userId INTEGER,
+      category TEXT,
+      vendorName TEXT,
+      amount REAL,
+      month INTEGER,
+      year INTEGER,
+      FOREIGN KEY (userId) REFERENCES users (id)
+    )
+  `);
+
+  // Create 'userData' table
+  db.run(`
+    CREATE TABLE IF NOT EXISTS userData (
+      id INTEGER PRIMARY KEY,
+      userId INTEGER,
+      startMonthlySavingsGoal REAL,
+      startMonthlyIncome REAL,
+      startMonthlyExpenditure REAL,
+      userSalaryIncreaseRate REAL,
+      userInflationRate REAL,
+      beginYear INTEGER,
+      startPlanDate INTEGER,
+      targetDate INTEGER,
+      FOREIGN KEY (userId) REFERENCES users (id)
+    )
+  `);
+});
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
