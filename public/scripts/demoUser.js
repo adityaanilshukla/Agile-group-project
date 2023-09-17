@@ -27,7 +27,7 @@ function generateExpenseByVendorData(category) {
     userId: null,
     category,
     vendorName: vendor,
-    amount: (Math.random() * 100).toFixed(2), //randomData
+    amount: Math.random() * 100, //randomData
     month: null,
     year: null,
   }));
@@ -94,7 +94,8 @@ function createDemoUser() {
           category: "Food",
           amount: 0, // You will calculate the total amount below
           month: null, // Use the appropriate month
-          year: null, // Set to the user's beginYear
+          year: null,
+          // Set to the user's beginYear
           userId: null, // Set to the user's ID once the user is inserted
         },
         {
