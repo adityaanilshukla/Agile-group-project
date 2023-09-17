@@ -83,6 +83,10 @@ app.get("/overseasTransaction", (req, res) => {
   res.render("overseasTransaction");
 });
 
+app.get("/enter-expenses", (req, res) => {
+  res.render("enter-expenses");
+});
+
 //post routes
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
