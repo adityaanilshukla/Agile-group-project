@@ -161,7 +161,7 @@ function createDemoUser() {
         for (const categoryData of expenseByCategoryData) {
           categoryInsert.run([
             categoryData.category,
-            categoryData.amount,
+            categoryData.amount.toFixed(2),
             categoryData.month,
             categoryData.year,
             categoryData.userId,
@@ -177,7 +177,7 @@ function createDemoUser() {
           vendorInsert.run([
             vendorData.category,
             vendorData.vendorName,
-            vendorData.amount,
+            vendorData.amount.toFixed(2),
             vendorData.month,
             vendorData.year,
             vendorData.userId,
