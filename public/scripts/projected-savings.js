@@ -63,6 +63,7 @@ function calculateProjectedExpenditure(currentAmount) {
   return ((currentAmount / daysPassed) * daysInMonth).toFixed(2);
 }
 
+//fake data
 var pastMonthsData = [
   [
     { category: "Food", amount: 300, month: 8, year: 2023 },
@@ -89,8 +90,8 @@ var pastMonthsData = [
 ];
 
 // Mock data for the "Projected Savings for the Month" page
-var projectedSavingsData = {
-  targetSavings: 1000, // Your target savings for the month
+var userStoredData = {
+  startTargetSavings: 1000, // Your target savings for the month
   startIncome: 2500,
   userSalaryIncreaseRate: 0.05,
   userInflationRate: 0.04,
@@ -100,18 +101,18 @@ var projectedSavingsData = {
 let currentDate = new Date();
 let currentYear = currentDate.getFullYear();
 let currentMonth = currentDate.getMonth();
-let yearsPassed = currentYear - projectedSavingsData.beginYear;
+let yearsPassed = currentYear - userStoredData.beginYear;
 
 //as users salary is set to increase by a certain amount each year
 let currentIncome = (
-  projectedSavingsData.startIncome *
-  (1 + projectedSavingsData.userSalaryIncreaseRate) ** yearsPassed
+  userStoredData.startIncome *
+  (1 + userStoredData.userSalaryIncreaseRate) ** yearsPassed
 ).toFixed(2);
 
 //users target savigns to increase with inflaition and changing salaries
 let currentTargetSavings = (
-  projectedSavingsData.targetSavings *
-  (1 + projectedSavingsData.userInflationRate) ** yearsPassed
+  userStoredData.startTargetSavings *
+  (1 + userStoredData.userInflationRate) ** yearsPassed
 ).toFixed(2);
 
 let currentToDateSpending = calculateToDateSpending(
@@ -125,8 +126,8 @@ let projectedExpenditre = calculateProjectedExpenditure(currentToDateSpending);
 
 // Calculate the savings progress
 let savingsProgress = calculateSavingsProgress(
-  projectedSavingsData.projec,
-  projectedSavingsData.currentSavings,
+  userStoredData.projec,
+  userStoredData.currentSavings,
 );
 
 // Calculate and predict savings based on daily spending
@@ -138,9 +139,6 @@ let projectedSavings = calculateProjectedSavings(
 let currentSavings = currentIncome - currentToDateSpending;
 
 // Display the savings progress and prediction on the page (with "$" sign)
-document.getElementById("targetSavingsBox").innerHTML =
-  "$" + currentTargetSavings;
-
 document.getElementById("monthlyIncomeBox").innerHTML = "$" + currentIncome;
 
 document.getElementById("currentExpenditureBox").innerHTML =
@@ -152,6 +150,9 @@ document.getElementById("projectedExpenditureBox").innerHTML =
 document.getElementById("currentSavingsBox").innerHTML =
   "$" + currentSavings.toFixed(2);
 
-// Display the savings prediction
+// Display the savings prediction in bold
 document.getElementById("projectedSavingsBox").innerHTML =
-  "$" + projectedSavings;
+  "<strong>" + "$" + projectedSavings + "</strong>";
+
+document.getElementById("targetSavingsBox").innerHTML =
+  "$" + currentTargetSavings;

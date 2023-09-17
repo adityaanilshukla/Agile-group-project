@@ -16,20 +16,17 @@
 <table class="table">
   <thead>
     <tr>
-      <th>Target Savings</th>
       <th>Income</th>
        <th><%= months[currentDate.getMonth()] %> Exp <%= daysPassed %>/<%= daysInMonth %> Days</th>
         <th> Projected EOM <%= months[currentDate.getMonth()] %> Exp</th>
       <th>Current Savings</th>
       <th>Projected Savings</th>
+      <th>Target Savings</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <!-- Target Savings -->
-      <td id="targetSavingsBox">
-        <!-- Content for Target Savings goes here -->
-      </td>
+
       <!-- Target Savings -->
       <td id="monthlyIncomeBox">
         <!-- user's salary increase rate adjusted income goes here -->
@@ -54,6 +51,13 @@
       <td id="projectedSavingsBox">
         <!-- Content for Projected Savings goes here -->
       </td>
+
+
+      <!-- Target Savings -->
+      <td id="targetSavingsBox">
+        <!-- Content for Target Savings goes here -->
+      </td>
+
     </tr>
   </tbody>
 </table>
