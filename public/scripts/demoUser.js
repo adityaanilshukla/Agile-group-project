@@ -5,17 +5,24 @@ const db = new sqlite3.Database("database.db");
 
 // Helper function to generate random data for expenseByVendor
 function generateExpenseByVendorData(category) {
+  //distopian mega corps for laughs
   const vendors = [
-    "Vendor1",
-    "Vendor2",
-    "Vendor3",
-    // Add more vendors as needed
+    "Soylent Corp",
+    "Tyrell Corp",
+    "Blue Sun",
+    "E Corp",
+    "Buy n Large",
+    "Omni Cons Prod",
+    "Cyberdyne Systems",
+    "Biosyn",
+    "Umbrella Corp",
+    "Weyland Corp",
   ];
 
   const data = vendors.map((vendor) => ({
     category,
     vendorName: vendor,
-    amount: Math.random() * 100, // Generate random amounts
+    amount: Math.random(), // Generate random amounts
   }));
 
   return data;
@@ -70,13 +77,38 @@ function createDemoUser() {
         console.log("Existing demo user deleted.");
       }
 
+      let currentDate = new Date();
+      const currYear = currentDate.getFullYear();
+      const currMonth = currentDate.getMonth();
+
       // Generate data for the user tables
       const expenseByCategoryData = [
         {
           category: "Food",
           amount: 0, // You will calculate the total amount below
-          month: 0, // Use the appropriate month
-          year: 2023, // Set to the user's beginYear
+          month: currMonth, // Use the appropriate month
+          year: currYear, // Set to the user's beginYear
+          userId: null, // Set to the user's ID once the user is inserted
+        },
+        {
+          category: "Utilities",
+          amount: 0, // You will calculate the total amount below
+          month: currMonth, // Use the appropriate month
+          year: currYear, // Set to the user's beginYear
+          userId: null, // Set to the user's ID once the user is inserted
+        },
+        {
+          category: "Entertainment",
+          amount: 0, // You will calculate the total amount below
+          month: currMonth, // Use the appropriate month
+          year: currYear, // Set to the user's beginYear
+          userId: null, // Set to the user's ID once the user is inserted
+        },
+        {
+          category: "Transportation",
+          amount: 0, // You will calculate the total amount below
+          month: currMonth, // Use the appropriate month
+          year: currYear, // Set to the user's beginYear
           userId: null, // Set to the user's ID once the user is inserted
         },
         // Add more categories as needed
