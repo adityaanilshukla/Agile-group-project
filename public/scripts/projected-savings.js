@@ -156,3 +156,28 @@ document.getElementById("projectedSavingsBox").innerHTML =
 
 document.getElementById("targetSavingsBox").innerHTML =
   "$" + currentTargetSavings;
+
+// Calculate the difference between projected savings and the target
+let savingsDifference = projectedSavings - currentTargetSavings;
+
+// Get the message container element
+let messageContainer = document.getElementById("savingsMessage");
+
+// Define messages based on savingsDifference
+let message = "";
+if (savingsDifference > 0) {
+  message = `Great news! You are projected to save <strong>$${savingsDifference.toFixed(
+    2,
+  )}</strong> more than your target savings this month.`;
+} else if (savingsDifference < 0) {
+  message = `You are projected to save <strong>$${Math.abs(
+    savingsDifference,
+  ).toFixed(
+    2,
+  )}</strong> less than your target savings this month. Consider reviewing your expenses on the <a href="/spending-habits">Recommendations Based on Spending Habits</a> page.`;
+} else {
+  message = "Your projected savings align perfectly with your target.";
+}
+
+// Display the message
+messageContainer.innerHTML = `<p>${message}</p>`;

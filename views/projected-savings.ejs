@@ -19,8 +19,8 @@
       <th>Income</th>
        <th><%= months[currentDate.getMonth()] %> Exp <%= daysPassed %>/<%= daysInMonth %> Days</th>
         <th> Projected EOM <%= months[currentDate.getMonth()] %> Exp</th>
-      <th>Current Savings</th>
-      <th>Projected Savings</th>
+      <th>Current Savings <%= daysPassed %>/<%= daysInMonth %> Days </th>
+      <th>Projected EOM Savings</th>
       <th>Target Savings</th>
     </tr>
   </thead>
@@ -61,6 +61,17 @@
     </tr>
   </tbody>
 </table>
+
+<!-- Table to display savings data -->
+<table class="table">
+  <!-- ... (table headers and data cells) ... -->
+</table>
+
+<!-- Message section -->
+<div id="savingsMessage">
+  <!-- Messages will be displayed here -->
+</div>
+
 
 <script src="/scripts/projected-savings.js"></script>
 
