@@ -22,7 +22,7 @@
 <h2 color="red">Breakdown of projected expenses</h2>
 
 <% 
-const expenseCategories = [
+const expenseByVendor = [
   {
     sectionTitle: "Annual expense Projection",
     expenses: [{ name: "Amount spent this year", amount: 15000.14 }],
@@ -62,7 +62,7 @@ const expenseCategories = [
 ];
 %>
 
-<% expenseCategories.forEach((category) => { %>
+<% expenseByVendor.forEach((category) => { %>
   <div class="expense-card">
     <div class="card">
       <h4><%= category.sectionTitle %></h4>

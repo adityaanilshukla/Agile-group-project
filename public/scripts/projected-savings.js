@@ -8,12 +8,12 @@ function calculateToDateSpending(month, year) {
 
     // Check if the month and year match the input
     if (
-      monthData.some(function(entry) {
+      monthData.some(function (entry) {
         return entry.month === month && entry.year === year;
       })
     ) {
       // Calculate the total spending for this month and add it to the total
-      var monthlySpending = monthData.reduce(function(acc, entry) {
+      var monthlySpending = monthData.reduce(function (acc, entry) {
         return acc + entry.amount;
       }, 0);
 
@@ -90,9 +90,10 @@ var pastMonthsData = [
 ];
 
 // Mock data for the "Projected Savings for the Month" page
-var userStoredData = {
-  startTargetSavings: 1000, // Your target savings for the month
-  startIncome: 2500,
+var userData = {
+  startMonthlySavingsGoal: 1000, // Your target savings for the month
+  startMonthlyIncome: 2500,
+  startMonthlyExpenditure: 100, // Your target savings for the month
   userSalaryIncreaseRate: 0.05,
   userInflationRate: 0.04,
   beginYear: 2023,
@@ -101,18 +102,18 @@ var userStoredData = {
 let currentDate = new Date();
 let currentYear = currentDate.getFullYear();
 let currentMonth = currentDate.getMonth();
-let yearsPassed = currentYear - userStoredData.beginYear;
+let yearsPassed = currentYear - userData.beginYear;
 
 //as users salary is set to increase by a certain amount each year
 let currentIncome = (
-  userStoredData.startIncome *
-  (1 + userStoredData.userSalaryIncreaseRate) ** yearsPassed
+  userData.startMonthlyIncome *
+  (1 + userData.userSalaryIncreaseRate) ** yearsPassed
 ).toFixed(2);
 
 //users target savigns to increase with inflaition and changing salaries
 let currentTargetSavings = (
-  userStoredData.startTargetSavings *
-  (1 + userStoredData.userInflationRate) ** yearsPassed
+  userData.startMonthlySavingsGoal *
+  (1 + userData.userInflationRate) ** yearsPassed
 ).toFixed(2);
 
 let currentToDateSpending = calculateToDateSpending(
@@ -126,8 +127,8 @@ let projectedExpenditre = calculateProjectedExpenditure(currentToDateSpending);
 
 // Calculate the savings progress
 let savingsProgress = calculateSavingsProgress(
-  userStoredData.projec,
-  userStoredData.currentSavings,
+  userData.projec,
+  userData.currentSavings,
 );
 
 // Calculate and predict savings based on daily spending
