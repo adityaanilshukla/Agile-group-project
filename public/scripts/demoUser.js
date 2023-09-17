@@ -4,7 +4,13 @@ const sqlite3 = require("sqlite3");
 const db = new sqlite3.Database("database.db");
 
 // Helper function to generate random data for expenseByVendor
-function generateExpenseByVendorData(category) {
+function generateExpenseByVendorData(
+  category,
+  numExpenses,
+  month,
+  year,
+  userId,
+) {
   //distopian mega corps for laughs
   const vendors = [
     "Soylent Corp",
@@ -19,17 +25,13 @@ function generateExpenseByVendorData(category) {
     "Weyland Corp",
   ];
 
-  let currentDate = new Date();
-  let currMonth = currentDate.getMonth();
-  let currYear = currentDate.getFullYear();
-
   const data = vendors.map((vendor) => ({
-    userId: null,
+    userId: userId,
     category,
     vendorName: vendor,
     amount: Math.random() * 100, //randomData
-    month: null,
-    year: null,
+    month: month,
+    year: year,
   }));
 
   return data;
@@ -39,7 +41,7 @@ function generateExpenseByVendorData(category) {
 function generateUserData() {
   const currentDate = new Date();
   const startDate = new Date(currentDate);
-  startDate.setMonth(currentDate.getMonth() - 4); // 4 months ago
+  startDate.setMonth(currentDate.getMonth() - 5); // 5 months ago
   const targetDate = new Date(startDate);
   targetDate.setFullYear(startDate.getFullYear() + 5); // 5 years from start date
 
@@ -61,6 +63,8 @@ function generateUserData() {
 function createDemoUser() {
   // Check if the user exists by email or another identifier and delete if found
   const userEmail = "demo@example.com"; // Replace with your demo user's email
+  let userId; // Declare userId outside of the scope
+
   db.serialize(() => {
     db.run("BEGIN");
 
@@ -73,67 +77,121 @@ function createDemoUser() {
       }
 
       if (row) {
-        const userId = row.id;
+        userId = row.id;
 
         // Delete user data from all tables using userId as the reference
         db.run("DELETE FROM users WHERE id = ?", [userId]);
-        db.run("DELETE FROM expenseByCategory WHERE userId = ?", [userId]);
-        db.run("DELETE FROM expenseByVendor WHERE userId = ?", [userId]);
+        db.run(
+          "DELETE FROM expenseByCategory WHERE userId = ? OR userId IS NULL",
+          [userId],
+        );
+        db.run(
+          "DELETE FROM expenseByVendor WHERE userId = ? OR userId IS NULL",
+          [userId],
+        );
         db.run("DELETE FROM userData WHERE userId = ?", [userId]);
 
         console.log("Existing demo user deleted.");
       }
 
+      // Get the current date and time
       let currentDate = new Date();
-      const currYear = currentDate.getFullYear();
-      const currMonth = currentDate.getMonth();
+      let currYear = currentDate.getFullYear();
+      let currMonth = currentDate.getMonth() + 1; // Months are zero-indexed, so add 1
 
-      // Generate data for the user tables
-      const expenseByCategoryData = [
-        {
-          category: "Food",
-          amount: 0, // You will calculate the total amount below
-          month: null, // Use the appropriate month
-          year: null,
-          // Set to the user's beginYear
-          userId: null, // Set to the user's ID once the user is inserted
-        },
-        {
-          category: "Utilities",
-          amount: 0, // You will calculate the total amount below
-          month: null, // Use the appropriate month
-          year: null, // Set to the user's beginYear
-          userId: null, // Set to the user's ID once the user is inserted
-        },
-        {
-          category: "Entertainment",
-          amount: 0, // You will calculate the total amount below
-          month: null, // Use the appropriate month
-          year: null, // Set to the user's beginYear
-          userId: null, // Set to the user's ID once the user is inserted
-        },
-        {
-          category: "Transportation",
-          amount: 0, // You will calculate the total amount below
-          month: null, // Use the appropriate month
-          year: null, // Set to the user's beginYear
-          userId: null, // Set to the user's ID once the user is inserted
-        },
-        // // Add more categories as needed
-      ];
+      // Generate data for the user tables for the past 5 months
+      for (let i = 0; i < 5; i++) {
+        // Generate data for each category for the current month
+        const expenseByCategoryData = [
+          {
+            category: "Food",
+            amount: 0, // You will calculate the total amount below
+            month: currMonth,
+            year: currYear,
+            userId: userId, // Set userId for categoryData
+          },
+          {
+            category: "Utilities",
+            amount: 0,
+            month: currMonth,
+            year: currYear,
+            userId: userId,
+          },
+          {
+            category: "Entertainment",
+            amount: 0,
+            month: currMonth,
+            year: currYear,
+            userId: userId,
+          },
+          {
+            category: "Transportation",
+            amount: 0,
+            month: currMonth,
+            year: currYear,
+            userId: userId,
+          },
+          // Add more categories as needed
+        ];
 
-      const expenseByVendorData = [];
-      for (const categoryData of expenseByCategoryData) {
-        // Generate data for each category
-        const vendorData = generateExpenseByVendorData(categoryData.category);
+        const expenseByVendorData = [];
+        for (const categoryData of expenseByCategoryData) {
+          // Generate data for each category and month
+          const vendorData = generateExpenseByVendorData(
+            categoryData.category,
+            5, // 5 expenses per category
+            currMonth, // Pass the current month
+            currYear, // Pass the current year
+            userId, // Set userId for vendorData
+          );
 
-        expenseByVendorData.push(...vendorData);
+          expenseByVendorData.push(...vendorData);
 
-        // Calculate the total amount for the category
-        categoryData.amount = vendorData.reduce(
-          (total, vendor) => total + vendor.amount,
-          0,
+          // Calculate the total amount for the category
+          categoryData.amount = vendorData.reduce(
+            (total, vendor) => total + vendor.amount,
+            0,
+          );
+        }
+
+        // Insert data into expenseByCategory table
+        const categoryInsert = db.prepare(
+          "INSERT INTO expenseByCategory (category, amount, month, year, userId) VALUES (?, ?, ?, ?, ?)",
         );
+        for (const categoryData of expenseByCategoryData) {
+          categoryInsert.run([
+            categoryData.category,
+            categoryData.amount,
+            categoryData.month,
+            categoryData.year,
+            categoryData.userId,
+          ]);
+        }
+        categoryInsert.finalize();
+
+        // Insert data into expenseByVendor table
+        const vendorInsert = db.prepare(
+          "INSERT INTO expenseByVendor (category, vendorName, amount, month, year, userId) VALUES (?, ?, ?, ?, ?, ?)",
+        );
+        for (const vendorData of expenseByVendorData) {
+          vendorInsert.run([
+            vendorData.category,
+            vendorData.vendorName,
+            vendorData.amount,
+            vendorData.month,
+            vendorData.year,
+            vendorData.userId,
+          ]);
+        }
+        vendorInsert.finalize();
+
+        // Move to the previous month
+        if (currMonth === 1) {
+          currYear -= 1;
+          currMonth = 12;
+        } else {
+          currMonth -= 1;
+        }
       }
 
       const userData = generateUserData();
@@ -147,44 +205,7 @@ function createDemoUser() {
             console.error("Error inserting demo user:", err);
             db.run("ROLLBACK");
           } else {
-            const userId = this.lastID;
-
-            // Update the userId for expenseByCategoryData
-            for (const categoryData of expenseByCategoryData) {
-              categoryData.userId = userId;
-            }
-
-            // Insert data into expenseByCategory table
-            const categoryInsert = db.prepare(
-              "INSERT INTO expenseByCategory (category, amount, month, year, userId) VALUES (?, ?, ?, ?, ?)",
-            );
-            for (const categoryData of expenseByCategoryData) {
-              categoryInsert.run([
-                categoryData.category,
-                categoryData.amount,
-                categoryData.month,
-                categoryData.year,
-                categoryData.userId,
-              ]);
-            }
-            categoryInsert.finalize();
-
-            // Insert data into expenseByVendor table
-            const vendorInsert = db.prepare(
-              "INSERT INTO expenseByVendor (category, vendorName, amount, month, year, userId) VALUES (?, ?, ?, ?, ?, ?)",
-            );
-            for (const vendorData of expenseByVendorData) {
-              vendorData.userId = userId; // Update the userId for each vendorData
-              vendorInsert.run([
-                vendorData.category,
-                vendorData.vendorName,
-                vendorData.amount,
-                vendorData.month,
-                vendorData.year,
-                vendorData.userId,
-              ]);
-            }
-            vendorInsert.finalize();
+            userId = this.lastID; // Update userId after user insertion
 
             // Insert data into userData table
             db.run(
