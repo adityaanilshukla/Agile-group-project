@@ -7,8 +7,10 @@ const saltRounds = 10; // The number of salt rounds to use
 const app = express();
 const port = 3000;
 
-// Configure SQLite database
+// Import the createDemoUser function
+const createDemoUser = require("./public/scripts/demoUser");
 
+// Configure SQLite database
 const db = new sqlite3.Database("database.db");
 
 // Parse incoming form data
@@ -177,7 +179,7 @@ db.serialize(() => {
 
   // Create 'expensesByCategory' table
   db.run(`
-    CREATE TABLE IF NOT EXISTS expensesByCategory (
+    CREATE TABLE IF NOT EXISTS expenseByCategory (
       id INTEGER PRIMARY KEY,
       userId INTEGER,
       category TEXT,
@@ -219,6 +221,8 @@ db.serialize(() => {
     )
   `);
 });
+
+createDemoUser();
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
