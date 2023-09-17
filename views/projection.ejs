@@ -1,8 +1,7 @@
 <%- include("partials/header"); -%>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-
-  <script src="/scripts/graph.js"></script>
+<script src="/scripts/graph.js"></script>
 
 <h1>Inflation Expense Projection</h1>
 
@@ -11,171 +10,93 @@
 <canvas id="myChart" style="width:100%;max-width:1000px"></canvas>
 
 <script>
-
-  const inflation = 0.067
-  const five_year_income = [800*12, 800*12, 800*12, 800*12, 800*12];
+  const inflation = 0.067;
+  const five_year_income = [800 * 12, 800 * 12, 800 * 12, 800 * 12, 800 * 12];
   const userExpenses = [500 * 12, 500 * 12, 500 * 12, 500 * 12, 500 * 12];
-  const compoundedExpenses = [...userExpenses]; //make a copy of userExpenses array
-  const salaryIncreasePercentage = 0.066
-  
-  //plotInflationGraph(userExpenses, compoundedExpenses, inflation);
-  plotIncomeExpensesGraph( five_year_income, userExpenses, inflation, salaryIncreasePercentage);
+  const compoundedExpenses = [...userExpenses]; // Make a copy of userExpenses array
+  const salaryIncreasePercentage = 0.066;
 
+  plotIncomeExpensesGraph(five_year_income, userExpenses, inflation, salaryIncreasePercentage);
 </script>
 
-<h2 color="red" >Breakdown of projected expenses</h2>
+<h2 color="red">Breakdown of projected expenses</h2>
 
-<% expenses = [{name: "Amount spent this year", amount: 15000.14}]%>
-<% sectionTitle = "Annual expense Projection"; %>
-<% currentYear = new Date().getFullYear(); %>
-<% inflation = 0.06; %>
+<% 
+const expenseCategories = [
+  {
+    sectionTitle: "Annual expense Projection",
+    expenses: [{ name: "Amount spent this year", amount: 15000.14 }],
+    currentYear: new Date().getFullYear(),
+    inflation: 0.06,
+  },
+  {
+    sectionTitle: "Food",
+    expenses: [
+      { name: "Mcdonalds", amount: 107.14 },
+      { name: "KFC", amount: 57.34 },
+      { name: "Food Court", amount: 73.43 },
+    ],
+    currentYear: new Date().getFullYear(),
+    inflation: 0.06,
+  },
+  {
+    sectionTitle: "Utilities",
+    expenses: [
+      { name: "Electricity Bill", amount: 31.90 },
+      { name: "Water Bill", amount: 30.89 },
+      { name: "Public Transport", amount: 77.78 },
+    ],
+    currentYear: new Date().getFullYear(),
+    inflation: 0.06,
+  },
+  {
+    sectionTitle: "Entertainment",
+    expenses: [
+      { name: "Netflix", amount: 107.14 },
+      { name: "Disney Plus", amount: 57.34 },
+      { name: "Amazon Primevideo", amount: 73.43 },
+    ],
+    currentYear: new Date().getFullYear(),
+    inflation: 0.06,
+  },
+];
+%>
 
-<div class="expense-card">
-  <div class="card">
-    <h4><%= sectionTitle %></h4> 
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Expense Item</th>
-          <% for (let i = 0; i < 5; i++) { %>
-            <th><%= currentYear + i %></th>
-          <% } %>
-        </tr>
-      </thead>
-      <tbody>
-        <% expenses.forEach((item, index) => { %>
+<% expenseCategories.forEach((category) => { %>
+  <div class="expense-card">
+    <div class="card">
+      <h4><%= category.sectionTitle %></h4>
+      <table class="table">
+        <thead>
           <tr>
-            <td><%= item.name %></td>
+            <th>Expense Item</th>
             <% for (let i = 0; i < 5; i++) { %>
-              <td>
-                $<%= (item.amount * Math.pow(1 + inflation, i)).toFixed(2) %>
-                <% if (i > 0) { %> <!-- Adding the '+' for subsequent years -->
-                  <br>
-                  <span class="plus-amount">+$<%= ((item.amount * Math.pow(1 + inflation, i)) - (item.amount * Math.pow(1 + inflation, i - 1))).toFixed(2) %></span>
-                <% } %>
-              </td>
+              <th><%= category.currentYear + i %></th>
             <% } %>
           </tr>
-        <% }); %>
-      </tbody>
-    </table>
-<p> <span style="color: red"> Red font represents annual increase in expenses</p>
+        </thead>
+        <tbody>
+          <% category.expenses.forEach((item) => { %>
+            <tr>
+              <td><%= item.name %></td>
+              <% for (let i = 0; i < 5; i++) { %>
+                <td>
+                  $<%= (item.amount * Math.pow(1 + category.inflation, i)).toFixed(2) %>
+                  <% if (i > 0) { %> <!-- Adding the '+' for subsequent years -->
+                    <br>
+                    <span class="plus-amount">+$<%= ((item.amount * Math.pow(1 + category.inflation, i)) - (item.amount * Math.pow(1 + category.inflation, i - 1))).toFixed(2) %></span>
+                  <% } %>
+                </td>
+              <% } %>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+      <p> <span style="color: red"> Red font represents annual increase in expenses</p>
+    </div>
   </div>
+<% }); %>
 
 </div>
-
-
-
-
-<% expenses = [{name: "Mcdonalds", amount: 107.14},{name: "KFC",amount: 57.34},{ name: "Food Court", amount: 73.43},];%>
-<% sectionTitle = "Food"; %>
-
-<div class="expense-card">
-  <div class="card">
-    <h4><%= sectionTitle %></h4> 
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Expense Item</th>
-          <% for (let i = 0; i < 5; i++) { %>
-            <th><%= currentYear + i %></th>
-          <% } %>
-        </tr>
-      </thead>
-      <tbody>
-        <% expenses.forEach((item, index) => { %>
-          <tr>
-            <td><%= item.name %></td>
-            <% for (let i = 0; i < 5; i++) { %>
-              <td>
-                $<%= (item.amount * Math.pow(1 + inflation, i)).toFixed(2) %>
-                <% if (i > 0) { %> <!-- Adding the '+' for subsequent years -->
-                  <br>
-                  <span class="plus-amount">+ $<%= ((item.amount * Math.pow(1 + inflation, i)) - (item.amount * Math.pow(1 + inflation, i - 1))).toFixed(2) %></span>
-                <% } %>
-              </td>
-            <% } %>
-          </tr>
-        <% }); %>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<%expenses = [{name: "Electricity Bill", amount: 31.90 }, {name: "Water Bill", amount: 30.89}, {name: "Public Transport", amount: 77.78}];%>
-<% sectionTitle = "Utilities"; %>
-
-
-<div class="expense-card">
-  <div class="card">
-    <h4><%= sectionTitle %></h4> 
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Expense Item</th>
-          <% for (let i = 0; i < 5; i++) { %>
-            <th><%= currentYear + i %></th>
-          <% } %>
-        </tr>
-      </thead>
-      <tbody>
-        <% expenses.forEach((item, index) => { %>
-          <tr>
-            <td><%= item.name %></td>
-            <% for (let i = 0; i < 5; i++) { %>
-              <td>
-                $<%= (item.amount * Math.pow(1 + inflation, i)).toFixed(2) %>
-                <% if (i > 0) { %> <!-- Adding the '+' for subsequent years -->
-                  <br>
-                  <span class="plus-amount">+ $<%= ((item.amount * Math.pow(1 + inflation, i)) - (item.amount * Math.pow(1 + inflation, i - 1))).toFixed(2) %></span>
-                <% } %>
-              </td>
-            <% } %>
-          </tr>
-        <% }); %>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-
-<% expenses = [{name: "Netflix", amount: 107.14},{name: "Disney Plus",amount: 57.34},{ name: "Amazon Primevideo", amount: 73.43},];%>
-<% sectionTitle = "Entertainment"; %>
-
-<div class="expense-card">
-  <div class="card">
-    <h4><%= sectionTitle %></h4> 
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Expense Item</th>
-          <% for (let i = 0; i < 5; i++) { %>
-            <th><%= currentYear + i %></th>
-          <% } %>
-        </tr>
-      </thead>
-      <tbody>
-        <% expenses.forEach((item, index) => { %>
-          <tr>
-            <td><%= item.name %></td>
-            <% for (let i = 0; i < 5; i++) { %>
-              <td>
-                $<%= (item.amount * Math.pow(1 + inflation, i)).toFixed(2) %>
-                <% if (i > 0) { %> <!-- Adding the '+' for subsequent years -->
-                  <br>
-                  <span class="plus-amount">+ $<%= ((item.amount * Math.pow(1 + inflation, i)) - (item.amount * Math.pow(1 + inflation, i - 1))).toFixed(2) %></span>
-                <% } %>
-              </td>
-            <% } %>
-          </tr>
-        <% }); %>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-
-<div class="vertical-spacing"></div>
-<div class="vertical-spacing"></div>
 
 <%- include("partials/footer"); -%>

@@ -1,0 +1,40 @@
+
+
+
+
+
+<div class="expense-card">
+  <div class="card">
+    <h4><%= category.sectionTitle %></h4>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Expense Item</th>
+          <% for (let i = 0; i < years; i++) { %>
+            <th><%= currentYear + i %></th>
+          <% } %>
+        </tr>
+      </thead>
+      <tbody>
+        <% category.expenses.forEach((item, index) => { %>
+          <tr>
+            <td><%= item.name %></td>
+            <% for (let i = 0; i < years; i++) { %>
+              <td>
+                $<%= (item.amount * Math.pow(1 + category.inflation, i)).toFixed(2) %>
+                <% if (i > 0) { %>
+                  <br>
+                  <span class="plus-amount">
+                    + $<%= ((item.amount * Math.pow(1 + category.inflation, i)) - (item.amount * Math.pow(1 + category.inflation, i - 1))).toFixed(2) %>
+                  </span>
+                <% } %>
+              </td>
+            <% } %>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+    <p><span style="color: red"> Red font represents annual increase in expenses</p>
+  </div>
+</div>
+
