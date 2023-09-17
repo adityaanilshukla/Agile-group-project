@@ -19,10 +19,17 @@ function generateExpenseByVendorData(category) {
     "Weyland Corp",
   ];
 
+  let currentDate = new Date();
+  let currMonth = currentDate.getMonth();
+  let currYear = currentDate.getFullYear();
+
   const data = vendors.map((vendor) => ({
+    userId: null,
     category,
     vendorName: vendor,
-    amount: Math.random(), // Generate random amounts
+    amount: (Math.random() * 100).toFixed(2), //randomData
+    month: null,
+    year: null,
   }));
 
   return data;
@@ -86,38 +93,39 @@ function createDemoUser() {
         {
           category: "Food",
           amount: 0, // You will calculate the total amount below
-          month: currMonth, // Use the appropriate month
-          year: currYear, // Set to the user's beginYear
+          month: null, // Use the appropriate month
+          year: null, // Set to the user's beginYear
           userId: null, // Set to the user's ID once the user is inserted
         },
         {
           category: "Utilities",
           amount: 0, // You will calculate the total amount below
-          month: currMonth, // Use the appropriate month
-          year: currYear, // Set to the user's beginYear
+          month: null, // Use the appropriate month
+          year: null, // Set to the user's beginYear
           userId: null, // Set to the user's ID once the user is inserted
         },
         {
           category: "Entertainment",
           amount: 0, // You will calculate the total amount below
-          month: currMonth, // Use the appropriate month
-          year: currYear, // Set to the user's beginYear
+          month: null, // Use the appropriate month
+          year: null, // Set to the user's beginYear
           userId: null, // Set to the user's ID once the user is inserted
         },
         {
           category: "Transportation",
           amount: 0, // You will calculate the total amount below
-          month: currMonth, // Use the appropriate month
-          year: currYear, // Set to the user's beginYear
+          month: null, // Use the appropriate month
+          year: null, // Set to the user's beginYear
           userId: null, // Set to the user's ID once the user is inserted
         },
-        // Add more categories as needed
+        // // Add more categories as needed
       ];
 
       const expenseByVendorData = [];
       for (const categoryData of expenseByCategoryData) {
         // Generate data for each category
         const vendorData = generateExpenseByVendorData(categoryData.category);
+
         expenseByVendorData.push(...vendorData);
 
         // Calculate the total amount for the category
@@ -133,7 +141,7 @@ function createDemoUser() {
       db.run(
         "INSERT INTO users (email, password) VALUES (?, ?)",
         [userEmail, "demo_password"], // Replace "demo_password" with the hashed password
-        function(err) {
+        function (err) {
           if (err) {
             console.error("Error inserting demo user:", err);
             db.run("ROLLBACK");
@@ -165,6 +173,7 @@ function createDemoUser() {
               "INSERT INTO expenseByVendor (category, vendorName, amount, month, year, userId) VALUES (?, ?, ?, ?, ?, ?)",
             );
             for (const vendorData of expenseByVendorData) {
+              vendorData.userId = userId; // Update the userId for each vendorData
               vendorInsert.run([
                 vendorData.category,
                 vendorData.vendorName,
