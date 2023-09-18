@@ -10,6 +10,8 @@ const port = 3000;
 
 const createDemoUser = require("./public/scripts/demoUser");
 const expenseFormatter = require("./public/scripts/expenseFormatter");
+const formatSavingsData = require("./public/scripts/formatSavingsData");
+const getUserData = require("./public/scripts/getUserData");
 
 const db = new sqlite3.Database("database.db");
 
@@ -123,12 +125,40 @@ app.get("/recommendation", requireAuth, (req, res) => {
   res.render("recommendation");
 });
 
-app.get("/spending-habits", requireAuth, (req, res) => {
-  res.render("spending-habits");
+app.get("/spending-habits", requireAuth, async (req, res) => {
+  // res.render("spending-habits");
+
+  const userId = req.session.userId;
+
+  try {
+    const pastMonthsData = await formatSavingsData.formatPastMonthsData(
+      db,
+      userId,
+    );
+    const userData = await getUserData.getUserData(db, userId);
+
+    res.render("spending-habits", { pastMonthsData, userData });
+  } catch (error) {
+    console.error("Error fetching data from the database:", error);
+    res.status(500).send("Error fetching data from the database");
+  }
 });
 
-app.get("/projected-savings", requireAuth, (req, res) => {
-  res.render("projected-savings");
+app.get("/projected-savings", requireAuth, async (req, res) => {
+  const userId = req.session.userId;
+
+  try {
+    const pastMonthsData = await formatSavingsData.formatPastMonthsData(
+      db,
+      userId,
+    );
+    const userData = await getUserData.getUserData(db, userId);
+
+    res.render("projected-savings", { pastMonthsData, userData });
+  } catch (error) {
+    console.error("Error fetching data from the database:", error);
+    res.status(500).send("Error fetching data from the database");
+  }
 });
 
 app.get("/cardRec", requireAuth, (req, res) => {

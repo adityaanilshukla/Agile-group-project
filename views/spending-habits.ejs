@@ -6,6 +6,12 @@
     var daysPassed = currentDate.getDate();
   %>
 
+<script>
+  var userData = <%- JSON.stringify(userData) %>;
+  var pastMonthsData = <%- JSON.stringify(pastMonthsData) %>;
+</script>
+
+
 <% const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]; %>
 
 <h2> Recommendations based on <%= months[currentDate.getMonth()] %> Spending Habits </h2>

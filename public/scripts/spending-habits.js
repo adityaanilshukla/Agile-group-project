@@ -1,29 +1,3 @@
-// Simulated user's spending habits data from past months (for testing recommendations)
-var pastMonthsData = [
-  [
-    { category: "Food", amount: 10, month: 8, year: 2023 },
-    { category: "Utilities", amount: 180, month: 8, year: 2023 },
-    { category: "Entertainment", amount: 50, month: 8, year: 2023 },
-    { category: "Transportation", amount: 47, month: 8, year: 2023 },
-    { category: "Shopping", amount: 200, month: 8, year: 2023 },
-    // Add more data as needed
-  ],
-  [
-    { category: "Food", amount: 500, month: 7, year: 2023 },
-    { category: "Utilities", amount: 140, month: 7, year: 2023 },
-    { category: "Entertainment", amount: 45, month: 7, year: 2023 },
-    { category: "Transportation", amount: 95, month: 7, year: 2023 },
-    { category: "Shopping", amount: 180, month: 7, year: 2023 },
-  ],
-  [
-    { category: "Food", amount: 310, month: 6, year: 2023 },
-    { category: "Utilities", amount: 155, month: 6, year: 2023 },
-    { category: "Entertainment", amount: 55, month: 6, year: 2023 },
-    { category: "Transportation", amount: 110, month: 6, year: 2023 },
-    { category: "Shopping", amount: 210, month: 6, year: 2023 },
-  ],
-];
-
 function getMonthEntries(month, year) {
   // Iterate through pastMonthsData to find data for the specified month and year
   for (var i = 0; i < pastMonthsData.length; i++) {

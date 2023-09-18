@@ -63,42 +63,6 @@ function calculateProjectedExpenditure(currentAmount) {
   return ((currentAmount / daysPassed) * daysInMonth).toFixed(2);
 }
 
-//fake data
-var pastMonthsData = [
-  [
-    { category: "Food", amount: 300, month: 8, year: 2023 },
-    { category: "Utilities", amount: 180, month: 8, year: 2023 },
-    { category: "Entertainment", amount: 50, month: 8, year: 2023 },
-    { category: "Transportation", amount: 100, month: 8, year: 2023 },
-    { category: "Shopping", amount: 200, month: 8, year: 2023 },
-    // Add more data as needed
-  ],
-  [
-    { category: "Food", amount: 500, month: 7, year: 2023 },
-    { category: "Utilities", amount: 140, month: 7, year: 2023 },
-    { category: "Entertainment", amount: 45, month: 7, year: 2023 },
-    { category: "Transportation", amount: 95, month: 7, year: 2023 },
-    { category: "Shopping", amount: 180, month: 7, year: 2023 },
-  ],
-  [
-    { category: "Food", amount: 310, month: 6, year: 2023 },
-    { category: "Utilities", amount: 155, month: 6, year: 2023 },
-    { category: "Entertainment", amount: 55, month: 6, year: 2023 },
-    { category: "Transportation", amount: 110, month: 6, year: 2023 },
-    { category: "Shopping", amount: 210, month: 6, year: 2023 },
-  ],
-];
-
-// Mock data for the "Projected Savings for the Month" page
-var userData = {
-  startMonthlySavingsGoal: 1000, // Your target savings for the month
-  startMonthlyIncome: 2500,
-  startMonthlyExpenditure: 100, // Your target savings for the month
-  userSalaryIncreaseRate: 0.05,
-  userInflationRate: 0.04,
-  beginYear: 2023,
-};
-
 let currentDate = new Date();
 let currentYear = currentDate.getFullYear();
 let currentMonth = currentDate.getMonth();
