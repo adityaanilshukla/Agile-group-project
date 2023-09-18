@@ -10,13 +10,31 @@
 <canvas id="myChart" style="width:100%;max-width:1000px"></canvas>
 
 <script>
-  const inflation = 0.067;
-  const five_year_income = [800 * 12, 800 * 12, 800 * 12, 800 * 12, 800 * 12];
-  const userExpenses = [500 * 12, 500 * 12, 500 * 12, 500 * 12, 500 * 12];
-  const compoundedExpenses = [...userExpenses]; // Make a copy of userExpenses array
-  const salaryIncreasePercentage = 0.066;
+  
+  //define current date
+  const currentDate = new Date;
+  const currentYear = currentDate.getFullYear();
 
-  plotIncomeExpensesGraph(five_year_income, userExpenses, inflation, salaryIncreasePercentage);
+  
+  //data to be pulled from userData table
+  const userInflationRate = 0.067;
+  const userSalaryIncreaseRate = 0.066;
+  const startMonthlyIncome = 800;
+  const startMonthlyExpenditure = 500;
+  const beginYear = 2023;
+
+  //years passed since user made their plan
+  const yearsPassed = currentYear - beginYear;
+  
+  const currentIncome = startMonthlyIncome * (1+userSalaryIncreaseRate)**yearsPassed;
+  const currentExpenditure = startMonthlyExpenditure * (1+userSalaryIncreaseRate)**yearsPassed;
+
+  const five_year_income = [currentIncome * 12, currentIncome * 12, currentIncome * 12, currentIncome * 12, currentIncome * 12];
+  const userExpenses = [currentExpenditure * 12, currentExpenditure * 12, currentExpenditure * 12, currentExpenditure * 12, currentExpenditure * 12];
+  const compoundedExpenses = [...userExpenses]; // Make a copy of userExpenses array
+
+
+  plotIncomeExpensesGraph(five_year_income, userExpenses, userInflationRate, userSalaryIncreaseRate);
 </script>
 
 <h2 color="red">Breakdown of projected expenses</h2>
