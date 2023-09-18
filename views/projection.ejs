@@ -11,17 +11,16 @@
 
 <script>
   
-  //define current date
-  const currentDate = new Date;
+  // Define current date
+  const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
 
-  
-  //data to be pulled from userData table
-  const userInflationRate = 0.067;
-  const userSalaryIncreaseRate = 0.066;
-  const startMonthlyIncome = 800;
-  const startMonthlyExpenditure = 500;
-  const beginYear = 2023;
+  // Data fetched from the userData table
+  const userInflationRate = <%= userData.userInflationRate %>;
+  const userSalaryIncreaseRate = <%= userData.userSalaryIncreaseRate %>;
+  const startMonthlyIncome = <%= userData.startMonthlyIncome %>;
+  const startMonthlyExpenditure = <%= userData.startMonthlyExpenditure %>;
+  const beginYear = <%= userData.beginYear %>;
 
   //years passed since user made their plan
   const yearsPassed = currentYear - beginYear;

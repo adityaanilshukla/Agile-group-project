@@ -72,7 +72,42 @@ app.get("/savings-plan", requireAuth, (req, res) => {
 });
 
 app.get("/projection", requireAuth, (req, res) => {
-  res.render("projection");
+  // Fetch data from the database (userData and expenseByVendor)
+  const userId = req.session.userId; // Get the user's ID from the session
+
+  db.get(
+    "SELECT * FROM userData WHERE userId = ?",
+    [userId],
+    (userDataErr, userDataRow) => {
+      if (userDataErr) {
+        console.error("Error fetching userData:", userDataErr);
+        res.status(500).send("Internal Server Error");
+        return;
+      }
+
+      // Fetch expenseByVendor data for the user
+      db.all(
+        "SELECT * FROM expenseByVendor WHERE userId = ?",
+        [userId],
+        (expenseByVendorErr, expenseByVendorData) => {
+          if (expenseByVendorErr) {
+            console.error(
+              "Error fetching expenseByVendor data:",
+              expenseByVendorErr,
+            );
+            res.status(500).send("Internal Server Error");
+            return;
+          }
+
+          // Render the projection.ejs template with the fetched data
+          res.render("projection", {
+            userData: userDataRow,
+            expenseByVendor: expenseByVendorData,
+          });
+        },
+      );
+    },
+  );
 });
 
 app.get("/recommendation", requireAuth, (req, res) => {
