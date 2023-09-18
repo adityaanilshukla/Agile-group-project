@@ -49,8 +49,29 @@ app.get("/home", requireAuth, (req, res) => {
   res.render("home");
 });
 
+//sign the user in as a demoUser on the planning page
 app.get("/planning", requireAuth, (req, res) => {
-  res.render("planning");
+  // If the user is not authenticated, perform the demo user login process
+  const demoEmail = "demo@demo.com"; // Demo user's email
+  const demoPassword = "1"; // Demo user's password
+
+  // Query the database to get the demo user's information
+  db.get("SELECT * FROM users WHERE email = ?", [demoEmail], (err, row) => {
+    index.js;
+    if (err || !row) {
+      res.send("Demo login failed. Please try again.");
+    } else {
+      // Simulate the login process for the demo user
+      bcrypt.compare(demoPassword, row.password, (bcryptErr, result) => {
+        if (bcryptErr || !result) {
+          res.send("Demo login failed. Please try again.");
+        } else {
+          req.session.userId = row.id; // Set the session for the demo user
+          res.render("planning"); // Render the planning page
+        }
+      });
+    }
+  });
 });
 
 app.get("/expenses", requireAuth, (req, res) => {
@@ -227,7 +248,7 @@ app.post("/register", (req, res) => {
 
 app.post("/threads", (req, res) => {
   const { title } = req.body;
-  db.run("INSERT INTO threads (title) VALUES (?)", [title], function(err) {
+  db.run("INSERT INTO threads (title) VALUES (?)", [title], function (err) {
     if (err) {
       console.error(err);
       res.status(500).send("Error creating a new thread.");
@@ -242,7 +263,7 @@ app.post("/posts", (req, res) => {
   db.run(
     "INSERT INTO posts (thread_id, content) VALUES (?, ?)",
     [thread_id, content],
-    function(err) {
+    function (err) {
       if (err) {
         console.error(err);
         res.status(500).send("Error creating a new post.");
@@ -251,29 +272,6 @@ app.post("/posts", (req, res) => {
       }
     },
   );
-});
-
-// Define a route for demo login
-app.get("/demo-login", (req, res) => {
-  const demoEmail = "demo@demo.com"; // Demo user's email
-  const demoPassword = "1"; // Demo user's password
-
-  // Query the database to get the demo user's information
-  db.get("SELECT * FROM users WHERE email = ?", [demoEmail], (err, row) => {
-    if (err || !row) {
-      res.send("Demo login failed. Please try again.");
-    } else {
-      // Simulate the login process for the demo user
-      bcrypt.compare(demoPassword, row.password, (bcryptErr, result) => {
-        if (bcryptErr || !result) {
-          res.send("Demo login failed. Please try again.");
-        } else {
-          req.session.userId = row.id; // Set the session for the demo user
-          res.redirect("/planning"); // Redirect to the planning page after successful login
-        }
-      });
-    }
-  });
 });
 
 db.serialize(() => {
