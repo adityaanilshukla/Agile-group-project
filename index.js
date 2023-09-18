@@ -57,7 +57,6 @@ app.get("/planning", requireAuth, (req, res) => {
 
   // Query the database to get the demo user's information
   db.get("SELECT * FROM users WHERE email = ?", [demoEmail], (err, row) => {
-    index.js;
     if (err || !row) {
       res.send("Demo login failed. Please try again.");
     } else {
@@ -221,6 +220,10 @@ app.post("/login", (req, res) => {
   });
 });
 
+app.get("/page-not-ready", requireAuth, (req, res) => {
+  res.render("page-not-ready");
+});
+
 app.post("/register", (req, res) => {
   const { email, password } = req.body;
 
@@ -269,6 +272,43 @@ app.post("/posts", (req, res) => {
         res.status(500).send("Error creating a new post.");
       } else {
         res.redirect("community");
+      }
+    },
+  );
+});
+
+app.post("/planning", requireAuth, (req, res) => {
+  const {
+    savingsGoal,
+    monthlyIncome,
+    monthlyExpenditure,
+    targetDate,
+    inflationRate,
+    salaryIncreaseRate,
+  } = req.body;
+
+  const userId = req.session.userId; // Get the user's ID from the session
+
+  // Assuming you have an SQLite database connection named 'db'
+  db.run(
+    "UPDATE userData SET startMonthlySavingsGoal = ?, startMonthlyIncome = ?, startMonthlyExpenditure = ?, targetDate = ?, userInflationRate = ?, userSalaryIncreaseRate = ? WHERE id = ?",
+    [
+      savingsGoal,
+      monthlyIncome,
+      monthlyExpenditure,
+      targetDate, // You may need to format this date as per your database's requirements
+      inflationRate,
+      salaryIncreaseRate,
+      userId,
+    ],
+    (err) => {
+      if (err) {
+        // Handle the error
+        console.error(err);
+        res.send("Error updating user data.");
+      } else {
+        // Redirect the user to a success page or wherever needed
+        res.redirect("/planning"); // Change this URL to your desired success page
       }
     },
   );
