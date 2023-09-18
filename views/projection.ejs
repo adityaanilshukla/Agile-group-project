@@ -38,46 +38,6 @@
 
 <h2 color="red">Breakdown of projected expenses</h2>
 
-<% 
-const expenseByVendor = [
-  {
-    sectionTitle: "Annual expense Projection",
-    expenses: [{ name: "Amount spent this year", amount: 15000.14 }],
-    currentYear: new Date().getFullYear(),
-    inflation: 0.06,
-  },
-  {
-    sectionTitle: "Food",
-    expenses: [
-      { name: "Mcdonalds", amount: 107.14 },
-      { name: "KFC", amount: 57.34 },
-      { name: "Food Court", amount: 73.43 },
-    ],
-    currentYear: new Date().getFullYear(),
-    inflation: 0.06,
-  },
-  {
-    sectionTitle: "Utilities",
-    expenses: [
-      { name: "Electricity Bill", amount: 31.90 },
-      { name: "Water Bill", amount: 30.89 },
-      { name: "Public Transport", amount: 77.78 },
-    ],
-    currentYear: new Date().getFullYear(),
-    inflation: 0.06,
-  },
-  {
-    sectionTitle: "Entertainment",
-    expenses: [
-      { name: "Netflix", amount: 107.14 },
-      { name: "Disney Plus", amount: 57.34 },
-      { name: "Amazon Primevideo", amount: 73.43 },
-    ],
-    currentYear: new Date().getFullYear(),
-    inflation: 0.06,
-  },
-];
-%>
 
 <% expenseByVendor.forEach((category) => { %>
   <div class="expense-card">

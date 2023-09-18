@@ -10,6 +10,7 @@ const port = 3000;
 
 // Import the createDemoUser function
 const createDemoUser = require("./public/scripts/demoUser");
+const expenseFormatter = require("./public/scripts/expenseFormatter");
 
 // Configure SQLite database
 const db = new sqlite3.Database("database.db");
@@ -99,10 +100,17 @@ app.get("/projection", requireAuth, (req, res) => {
             return;
           }
 
-          // Render the projection.ejs template with the fetched data
+          // Format the expenseByVendor data using the function from the module
+          const formattedExpenseByVendor =
+            expenseFormatter.formatExpenseByVendorData(
+              userDataRow,
+              expenseByVendorData,
+            );
+
+          // Render the projection.ejs template with the fetched and formatted data
           res.render("projection", {
             userData: userDataRow,
-            expenseByVendor: expenseByVendorData,
+            expenseByVendor: formattedExpenseByVendor,
           });
         },
       );
