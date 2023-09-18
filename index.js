@@ -253,6 +253,29 @@ app.post("/posts", (req, res) => {
   );
 });
 
+// Define a route for demo login
+app.get("/demo-login", (req, res) => {
+  const demoEmail = "demo@demo.com"; // Demo user's email
+  const demoPassword = "1"; // Demo user's password
+
+  // Query the database to get the demo user's information
+  db.get("SELECT * FROM users WHERE email = ?", [demoEmail], (err, row) => {
+    if (err || !row) {
+      res.send("Demo login failed. Please try again.");
+    } else {
+      // Simulate the login process for the demo user
+      bcrypt.compare(demoPassword, row.password, (bcryptErr, result) => {
+        if (bcryptErr || !result) {
+          res.send("Demo login failed. Please try again.");
+        } else {
+          req.session.userId = row.id; // Set the session for the demo user
+          res.redirect("/planning"); // Redirect to the planning page after successful login
+        }
+      });
+    }
+  });
+});
+
 db.serialize(() => {
   // Create 'users' table
   db.run(`
