@@ -1,5 +1,32 @@
 <%- include("partials/header"); -%>
 
-<h1>Community</h1>
+<main>
+    <section class="thread">
+      <form action="/threads" method="POST">
+        <input type="text" name="title" placeholder="Thread title" required>
+        <button type="submit">Create Thread</button>
+      </form>
+    </section>
+  
+    <% threads.forEach((thread) => { %>
+    <section class="thread">
+      <h2><%= thread.title %></h2>
+      <form action="/posts" method="POST">
+        <input type="hidden" name="thread_id" value="<%= thread.id %>">
+        <textarea name="content" placeholder="Write a comment..." required></textarea>
+        <button type="submit">Post</button>
+      </form>
+      <ul class="post-list">
+        <% posts.forEach((post) => { %>
+        <% if (post.thread_id === thread.id) { %>
+        <li class="post">User: <%= post.content %></li>
+        <% } %>
+        <% }); %>
+      </ul>
+    </section>
+    <% }); %>
+  </main>
+
 
 <%- include("partials/footer"); -%>
+<link rel="stylesheet" href="/css/community.css">
