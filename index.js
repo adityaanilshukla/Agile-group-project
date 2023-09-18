@@ -3,6 +3,7 @@ const sqlite3 = require("sqlite3");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const bcrypt = require("bcrypt");
+const session = require("express-session"); // Added session support
 const saltRounds = 10; // The number of salt rounds to use
 const app = express();
 const port = 3000;
@@ -16,10 +17,30 @@ const db = new sqlite3.Database("database.db");
 // Parse incoming form data
 app.use(bodyParser.urlencoded({ extended: false }));
 
+// Set up sessions
+app.use(
+  session({
+    secret: "secret", // Change this to a secret key for session encryption
+    resave: false,
+    saveUninitialized: true,
+  }),
+);
+
 //set the app to use ejs for rendering
 app.set("view engine", "ejs");
 
 app.use(express.static("public"));
+
+// Middleware for checking authentication
+function requireAuth(req, res, next) {
+  if (req.session.userId) {
+    // User is authenticated, proceed to the next route handler
+    next();
+  } else {
+    // User is not authenticated, redirect to the login page
+    res.redirect("/");
+  }
+}
 
 app.get("/", (req, res) => {
   res.render("login");
@@ -29,63 +50,60 @@ app.get("/register", (req, res) => {
   res.render("register");
 });
 
-app.get("/home", (req, res) => {
+// Protected routes
+app.get("/home", requireAuth, (req, res) => {
   res.render("home");
 });
 
-app.get("/points", (req, res) => {
-  res.render("points");
-});
-
-app.get("/planning", (req, res) => {
+app.get("/planning", requireAuth, (req, res) => {
   res.render("planning");
 });
 
-app.get("/expenses", (req, res) => {
+app.get("/expenses", requireAuth, (req, res) => {
   res.render("expenses");
 });
 
-app.get("/community", (req, res) => {
+app.get("/community", requireAuth, (req, res) => {
   res.render("community");
 });
 
-app.get("/savings-plan", (req, res) => {
+app.get("/savings-plan", requireAuth, (req, res) => {
   res.render("savings-plan");
 });
 
-app.get("/projection", (req, res) => {
+app.get("/projection", requireAuth, (req, res) => {
   res.render("projection");
 });
 
-app.get("/recommendation", (req, res) => {
+app.get("/recommendation", requireAuth, (req, res) => {
   res.render("recommendation");
 });
 
-app.get("/spending-habits", (req, res) => {
+app.get("/spending-habits", requireAuth, (req, res) => {
   res.render("spending-habits");
 });
 
-app.get("/projected-savings", (req, res) => {
+app.get("/projected-savings", requireAuth, (req, res) => {
   res.render("projected-savings");
 });
 
-app.get("/cardRec", (req, res) => {
+app.get("/cardRec", requireAuth, (req, res) => {
   res.render("cardRec");
 });
 
-app.get("/dinning", (req, res) => {
+app.get("/dinning", requireAuth, (req, res) => {
   res.render("dinning");
 });
 
-app.get("/generalSpending", (req, res) => {
+app.get("/generalSpending", requireAuth, (req, res) => {
   res.render("generalSpending");
 });
 
-app.get("/overseasTransaction", (req, res) => {
+app.get("/overseasTransaction", requireAuth, (req, res) => {
   res.render("overseasTransaction");
 });
 
-app.get("/enter-expenses", (req, res) => {
+app.get("/enter-expenses", requireAuth, (req, res) => {
   res.render("enter-expenses");
 });
 
@@ -115,8 +133,10 @@ app.post("/login", (req, res) => {
             res.send("Login failed. Please try again.");
           } else {
             // Authentication succeeded
+            // Store user information in the session
+            req.session.userId = row.id;
 
-            res.send("Login successful.");
+            res.redirect("/home"); // Redirect to the home page
           }
         });
       }

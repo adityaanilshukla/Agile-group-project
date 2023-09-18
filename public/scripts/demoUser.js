@@ -1,4 +1,6 @@
 const sqlite3 = require("sqlite3");
+const bcrypt = require("bcrypt"); // Import bcrypt for password hashing
+const saltRounds = 10; // The number of salt rounds to use
 
 // Create a SQLite3 database connection
 const db = new sqlite3.Database("database.db");
@@ -11,7 +13,7 @@ function generateExpenseByVendorData(
   year,
   userId,
 ) {
-  //distopian mega corps for laughs
+  // Distopian mega corps for laughs
   const vendors = [
     "Soylent Corp",
     "Tyrell Corp",
@@ -29,7 +31,7 @@ function generateExpenseByVendorData(
     userId: userId,
     category,
     vendorName: vendor,
-    amount: Math.random() * 100, //randomData
+    amount: Math.random() * 100, // Random data
     month: month,
     year: year,
   }));
@@ -62,7 +64,7 @@ function generateUserData() {
 // Function to create a demo user
 function createDemoUser() {
   // Check if the user exists by email or another identifier and delete if found
-  const userEmail = "demo@example.com"; // Replace with your demo user's email
+  const userEmail = "demo@demo.com"; // Replace with your demo user's email
   let userId; // Declare userId outside of the scope
 
   db.serialize(() => {
@@ -196,50 +198,59 @@ function createDemoUser() {
 
       const userData = generateUserData();
 
-      // Insert the user into the users table
-      db.run(
-        "INSERT INTO users (email, password) VALUES (?, ?)",
-        [userEmail, "demo_password"], // Replace "demo_password" with the hashed password
-        function (err) {
-          if (err) {
-            console.error("Error inserting demo user:", err);
-            db.run("ROLLBACK");
-          } else {
-            userId = this.lastID; // Update userId after user insertion
+      // Hash the password using bcrypt
+      bcrypt.hash("1", saltRounds, (hashErr, hashedPassword) => {
+        if (hashErr) {
+          console.error("Error hashing password:", hashErr);
+          db.run("ROLLBACK");
+          return;
+        }
 
-            // Insert data into userData table
-            db.run(
-              "INSERT INTO userData (startMonthlySavingsGoal, startMonthlyIncome, startMonthlyExpenditure, userSalaryIncreaseRate, userInflationRate, beginYear, startPlanDate, targetDate, userId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-              [
-                userData.startMonthlySavingsGoal,
-                userData.startMonthlyIncome,
-                userData.startMonthlyExpenditure,
-                userData.userSalaryIncreaseRate,
-                userData.userInflationRate,
-                userData.beginYear,
-                userData.startPlanDate,
-                userData.targetDate,
-                userId,
-              ],
-              (insertErr) => {
-                if (insertErr) {
-                  console.error("Error inserting user data:", insertErr);
-                  db.run("ROLLBACK");
-                } else {
-                  // Commit the transaction
-                  db.run("COMMIT", (commitErr) => {
-                    if (commitErr) {
-                      console.error("Transaction commit error:", commitErr);
-                    } else {
-                      console.log("Demo user created successfully!");
-                    }
-                  });
-                }
-              },
-            );
-          }
-        },
-      );
+        // Insert the user into the users table with the hashed password
+        db.run(
+          "INSERT INTO users (email, password) VALUES (?, ?)",
+          [userEmail, hashedPassword],
+          function (err) {
+            if (err) {
+              console.error("Error inserting demo user:", err);
+              db.run("ROLLBACK");
+            } else {
+              userId = this.lastID; // Update userId after user insertion
+
+              // Insert data into userData table
+              db.run(
+                "INSERT INTO userData (startMonthlySavingsGoal, startMonthlyIncome, startMonthlyExpenditure, userSalaryIncreaseRate, userInflationRate, beginYear, startPlanDate, targetDate, userId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                [
+                  userData.startMonthlySavingsGoal,
+                  userData.startMonthlyIncome,
+                  userData.startMonthlyExpenditure,
+                  userData.userSalaryIncreaseRate,
+                  userData.userInflationRate,
+                  userData.beginYear,
+                  userData.startPlanDate,
+                  userData.targetDate,
+                  userId,
+                ],
+                (insertErr) => {
+                  if (insertErr) {
+                    console.error("Error inserting user data:", insertErr);
+                    db.run("ROLLBACK");
+                  } else {
+                    // Commit the transaction
+                    db.run("COMMIT", (commitErr) => {
+                      if (commitErr) {
+                        console.error("Transaction commit error:", commitErr);
+                      } else {
+                        console.log("Demo user created successfully!");
+                      }
+                    });
+                  }
+                },
+              );
+            }
+          },
+        );
+      });
     });
   });
 }
